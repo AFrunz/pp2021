@@ -87,5 +87,5 @@ class Conf_parser:
 
 a = Conf_parser(12, 12, 12, 12)
 c = a.getRes()
-for i in c:
-    i.Print_s()
+# for i in c:
+#     i.Print_s()

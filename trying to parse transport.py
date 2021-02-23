@@ -5,6 +5,7 @@ HEADERS = {'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/
            }
 class plane_dict:
     """Информация о самолете"""
+    def __init__(self):
 #    link = None
 #    city_iz = None
 #    airport_iz = None
@@ -15,8 +16,9 @@ class plane_dict:
 #    time_v = None
 #    raiting = None
 #    type = None
-    price = None
-    number = None
+        self.price = None
+        self.number = None
+
     def Print_s(self):
         print(self.price)
 
@@ -65,5 +67,5 @@ class avia_parse():
         return array_of_inf
 a = avia_parse(12,12,12,12)
 c = a.getRes()
-#for i in c:
-#    print(i.price)
+for i in c:
+   print(i.price, i.number)

@@ -8,13 +8,14 @@ HEADERS = {'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/
 
 
 class Global_dict:
-    Name = None
-    date_start = None
-    date_end = None
-    application_end = None
-    Country = None
-    city = None
-    link = None
+    def __init__(self):
+        self.Name = None
+        self.date_start = None
+        self.date_end = None
+        self.application_end = None
+        self.Country = None
+        self.city = None
+        self.link = None
 
     def Print_s(self):
         print(self.date_start, self.date_end, self.application_end, self.Name, self.link, self.city, self.Country)

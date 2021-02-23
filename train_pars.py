@@ -6,20 +6,24 @@ HEADERS = {'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/
 
 class train_dict:
     """Информация о поезеде"""
-    number = None
-    link = None
-    city_iz = None
-    vokzal_iz = None
-    citi_v = None
-    vokzal_v = None
-    time_iz = None
-    time_v = None
-    raiting = None
-    type = None
-    price = {"Kupe": None, "SV": None, "Platskart": None, "Base": None, "Econom": None, "Econom+": None,
-            "Business": None, "First": None, "Kupe-peregovornaya": None}
+    def __init__(self):
+        self.number = None
+        self.link = None
+        self.city_iz = None
+        self.vokzal_iz = None
+        self.citi_v = None
+        self.vokzal_v = None
+        self.time_iz = None
+        self.time_v = None
+        self.rating = None
+        self.price = {"Купе": None, "СВ": None, "Плацкарт": None, "Базовый класс": None, "Эконом класс": None,
+             "Экономический +": None, "Вагон-бистро": None, "Бизнес класс": None,
+             "Первый класс": None, "Купе-переговорная": None}
 
-
+    def dict_print(self):
+        print(self.number, self.link, self.city_iz, self.vokzal_iz, self.time_iz, self.citi_v, self.vokzal_v,
+              self.time_v, self.rating)
+        print(self.price)
 
 
 
@@ -35,7 +39,7 @@ class train_parse:
 
     def get_Res(self):
         """Получение результатов парсинга"""
-        pass
+        return self.result
 
     def __linkUpdate(self):
         """Модификация ссылки с учетом вводных данных"""
@@ -69,20 +73,39 @@ class train_parse:
             l.link = d.get("href")
             s = str(d)
             l.number = s[s.find("_blank") + 8:s.rfind("<")]
+            # Тип
             c = c.find("span", class_="wg-train-info__number-link")
-            print(c)
+            if c is None:
+                l.type = ""
+            else:
+                c = str(c)
+                c = c[c.find(">")+1:]
+                l.type = c[c.find(">") + 1:c.find("</")]
+            # Оценка
+            b = str(b.find("div", class_="wg-train-rating"))
+            b = b[b.find("Value\">") + 7:]
+            l.rating = b[:b.find("<")]
+            # Города, время и вокзалы отправления и прибытия
+            a = i.find("div", class_="wg-train-options__wrap")
+            b = a.find("div", class_="wg-track-info__col")
+            l.time_iz = b.find("span", class_="wg-track-info__time").get_text()
+            l.city_iz = b.find("span", class_="wg-track-info__direction").get_text()
+            l.vokzal_iz = b.find("span", class_="wg-track-info__station").get_text()
+            b = a.find_all("div", class_="wg-track-info__col")[1]
+            l.time_v = b.find("span", class_="wg-track-info__time").get_text()
+            l.city_v = b.find("span", class_="wg-track-info__direction").get_text()
+            l.vokzal_v = b.find("span", class_="wg-track-info__station").get_text()
+            # Цены
+            a = i.find("div", class_="wg-wagon-type")
+            a = a.find_all("div", "wg-wagon-type__item")
+            for i in a:
+                key = str(i.find("div", class_="wg-wagon-type__title").get_text())
+                l.price[key] = str(i.find("span", class_="wg-wagon-type__price-value").get_text())[:-6]
+            all_data.append(l)
+        return all_data
+
 
 a = train_parse(1, 1, 1, 1)
-
-
-# number = None
-#     city_iz = None
-#     vokzal_iz = None
-#     citi_v = None
-#     vokzal_v = None
-#     time_iz = None
-#     time_v = None
-#     raiting = None
-#     type = None
-#     price = {"Kupe": None, "SV": None, "Platskart": None, "Base": None, "Econom": None, "Econom+": None,
-#             "Business": None, "First": None, "Kupe-peregovornaya": None}
+b = a.get_Res()
+for i in b:
+    i.dict_print()

@@ -43,53 +43,56 @@ class avia_parse():
     def __getHTML(self):
         """Получение HTML кода"""
         link = self.link
-        return requests.get(link, headers=HEADERS, timeout = (10, 11))
+        return requests.get(link, headers=HEADERS)
 
     def __getInf(self, html):
         """Получение необходимой информации"""
         new_html = BS(html.text, "html.parser")
         array_of_inf = []
         data = new_html.find_all("div", class_="resultWrapper")
-        print(new_html)
         for i in data:
             a = plane_dict()
             """Заполняем словарь ценами"""
-            s = i.find("div", class_ = "Common-Booking-MultiBookProvider featured-provider cheapest multi-row Theme-featured-large").find("span", class_="price-text")
-            s = str(s.get_text())
-            a.price =s[:-2].strip()
+            s = i.find("span", class_="price-text")
+            s = s.get_text()
+            a.price = s[:-2].strip()
             """Заполняет компаниями"""
-            s = i.find("div", class_="yoFb-carrier-text")
+            s = i.find("span", class_="codeshares-airline-names")
             s = s.get_text()
             a.number = str(s).strip()
             """Заполняет аэропортами"""
             s = i.find_all("span", class_ = "airport-name")
             fn = str(s[0])
             fn = fn.replace("\n", "")
+            fn = fn[1:]
+            fn = fn[fn.find(">"):fn.find("<")]
             fn = fn[1:-1]
             a.port_iz = fn
             ln = str(s[1])
             ln = ln.replace("\n", "")
+            ln = ln[1:]
+            ln = ln[ln.find(">"):ln.find("<")]
             ln = ln[1:-1]
             a.port_v = ln
             """Время вылета"""
-            fti = i.find_all("span", class_="depart-time base-time")
-            fti = fti.get_text()
-            a.time_iz = fti.split()
+            s = i.find("span", class_="depart-time base-time")
+            s = s.get_text()
+            a.time_iz = s.split()
             """Время прилета"""
-            sti = i.find_all("span", class_="arrival-time base-time")
+            sti = i.find("span", class_="arrival-time base-time")
             sti = sti.get_text()
             a.time_v = sti.split()
             """Рейтинг"""
             r = i.find("span", class_="_ial _idj _iaj")
-            r = r.get_txt()
-            a.rating = r.split()
-            """Тип полета"""
-            t = i.find("div", class_="yoFb-cabin-class js-farename")
-            t = t.get_text()
-            a.type = t.split()
+            if r is None:
+                r = -1
+            else:
+                r = r.get_text()
+            a.rating = r
             array_of_inf.append(a)
         return array_of_inf
 a = avia_parse(12,12,12,12)
 c = a.getRes()
 for i in c:
-    print(i.price, i.number, i.port_iz, i.port_v, i.time_iz, i.time_v, i.rating, i.type)
+    print(i.price, i.number, i.port_iz, i.port_v, i.time_iz, i.time_v, i.rating)
+s

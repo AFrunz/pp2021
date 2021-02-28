@@ -28,6 +28,7 @@ class train_dict:
 
 
 class train_parse:
+    """Класс для парсинга поездов"""
     link = "https://www.ufs-online.ru/kupit-zhd-bilety/moskva/sankt-peterburg?date=24.02.2021&returnDate=25.02.2021"
 
     def __init__(self, city_from, city_to, day, month):

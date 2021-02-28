@@ -8,6 +8,7 @@ HEADERS = {'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/
 
 
 class Global_dict:
+    """Класс для характеристик конференций"""
     def __init__(self):
         self.Name = None
         self.date_start = None

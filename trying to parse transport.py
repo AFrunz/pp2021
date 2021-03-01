@@ -48,7 +48,6 @@ class avia_parse():
     def __getInf(self, html):
         """Получение необходимой информации"""
         new_html = BS(html.text, "html.parser")
-        print(new_html)
         array_of_inf = []
         data = new_html.find_all("div", class_="resultWrapper")
         for i in data:

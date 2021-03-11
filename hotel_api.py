@@ -1,5 +1,6 @@
 """получение данных цен на отели"""
 """Нужно преобразовать дату"""
+"""Сделал"""
 import requests
 import json
 
@@ -10,7 +11,24 @@ class hotel_api:
         self.city = city
         self.start_date = start_date
         self.finish_date = finish_date
+        self.strtodate("5апреля2021г")
         self.__getInfo()
+
+    def strtodate(self, date):
+        ##5апреля2021г
+        d = {"янв": "01", "фев": "02", "мар": "03", "апр": "04", "ма": "05", "июн": "06",
+             "июл": "07", "ав": "08", "сен": "09", "окт": "10", "ноя": "11", "дек": "12"}
+        new_date = ""
+        for j in d:
+            pos = date.find(j)
+            if pos != -1:
+                if pos == 1:
+                    new_date += '0' + date[:pos] + '-'
+                new_date += d[j] + '-'
+                break
+        new_date += date[-5:-1]
+        return new_date
+
 
     def __linkup(self):
         link_city = "location=" + self.city

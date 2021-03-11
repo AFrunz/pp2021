@@ -3,8 +3,10 @@ import json
 import requests
 
 """Ломается когда в городе, в котором проходит конференция, нет ISAA кода"""
+"""Пофикшено"""
 class get_IATA_code:
-    """Класс для получения кода города с помощью города, на вход имя на русском(можно поменять на англ)"""
+    """Класс для получения кода города с помощью города, на вход имя на русском(можно поменять на англ),
+    если нет этого города в списке(если это деревня в глуши), то возвращает -1"""
     def __init__(self, name):
         self.__name = name
         self.__link_update()
@@ -17,9 +19,15 @@ class get_IATA_code:
 
     def __get_code(self):
         """Получение кода"""
-        b = json.loads(requests.get(self.__link).text)[0]
-        self.__code = b['code']
+        b = json.loads(requests.get(self.__link).text)
+        if len(b) > 0:
+            self.__code = b[0]['code']
+        else:
+            self.__code = -1
 
     def get_res(self):
         """Возврат кода"""
         return self.__code
+
+a = get_IATA_code("Белово")
+print(a.get_res())

@@ -1,5 +1,5 @@
 """Получает информацию о ценах на авиабилеты"""
-
+"""В разное время билеты стоят по разному, а тут мы считаем среднее билетов за все время"""
 
 import requests
 import json
@@ -29,15 +29,12 @@ class fly_price_info:
         data = self.info["data"]
         sum = 0
         k = 0
-        sr = len(data) // 2
-        print(data[sr]["value"])
         for i in data:
             sum += i["value"]
             k += 1
         if k != 0:
             sum = sum // k
         self.sr = sum
-        print(sum)
     def get_res(self):
         return self.sr
 

@@ -1,9 +1,8 @@
 """Получение кода города или аэропорта"""
-
-import requests
 import json
+import requests
 
-
+"""Ломается когда в городе, в котором проходит конференция, нет ISAA кода"""
 class get_IATA_code:
     """Класс для получения кода города с помощью города, на вход имя на русском(можно поменять на англ)"""
     def __init__(self, name):
@@ -24,7 +23,3 @@ class get_IATA_code:
     def get_res(self):
         """Возврат кода"""
         return self.__code
-
-
-a = get_IATA_code("Москва")
-print(a.get_res())

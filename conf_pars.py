@@ -28,7 +28,7 @@ class Global_dict:
 
 class Conf_parser:
     """Общий класс для парсинга конференций"""
-    link = 'https://konferencii.ru/search?advance%5Bkeyword%5D=&advance%5BsearchOr%5D=1&advance%5BstartDate%5D=&advance_startDate=&advance%5BendDate%5D=&advance_endDate=&advance%5Bbackup%5D=1&advance%5BlastRequestDate1%5D=&advance_lastRequestDate1=&advance%5BlastRequestDate2%5D=&advance_lastRequestDate2=&advance%5BcountryId%5D=&advance%5BcityId%5D=&advance%5BeventId%5D=&advance%5BtopicId%5D%5B%5D=79&advance%5BparticalId%5D=&advance%5BorderBy%5D=startDate&advance%5Blimit%5D=20&submit=%D0%98%D1%81%D0%BA%D0%B0%D1%82%D1%8C'
+    link = 'https://konferencii.ru/search?advance%5Bkeyword%5D=&advance%5BsearchOr%5D=1&advance%5BstartDate%5D=&advance_startDate=&advance%5BendDate%5D=&advance_endDate=&advance%5Bbackup%5D=1&advance%5BlastRequestDate1%5D=&advance_lastRequestDate1=&advance%5BlastRequestDate2%5D=&advance_lastRequestDate2=&advance%5BcountryId%5D=&advance%5BcityId%5D=&advance%5BeventId%5D=&advance%5BtopicId%5D%5B%5D=40&advance%5BparticalId%5D=&advance%5BorderBy%5D=startDate&advance%5Blimit%5D=20&submit=%D0%98%D1%81%D0%BA%D0%B0%D1%82%D1%8C'
 
     def __init__(self, country, city, date, theme):
         self.theme = theme
@@ -90,8 +90,3 @@ class Conf_parser:
             array_of_inf.append(a)
         return array_of_inf
 
-
-a = Conf_parser(12, 12, 12, 12)
-c = a.getRes()
-for i in c:
-    i.Print_s()

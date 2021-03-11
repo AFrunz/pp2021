@@ -1,5 +1,5 @@
 """получение данных цен на отели"""
-
+"""Нужно преобразовать дату"""
 import requests
 import json
 
@@ -32,9 +32,15 @@ class hotel_api:
         for i in range(0, len(info)):
             prices.append(info[i]["priceAvg"])
         prices = sorted(prices)
-        sr = len(prices) // 2
-        print(prices[sr])
-        return info
+        if len(prices)>0:
+            sr = len(prices) // 2
+            res = prices[sr]
+            self.res = res
+        else:
+            self.res = -1
+    def get_res(self):
+        return self.res
+
 
 
 a = hotel_api("OGZ", "2021-12-10", "2021-12-12")

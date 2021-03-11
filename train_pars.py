@@ -1,15 +1,19 @@
 """Парсер поездов, возвращает номер, ссылку, город, дату и вокзал отправления и прибытия, а также
 рейтинг и цену"""
-
+"""Сейчас считает среднюю по каждой категории"""
 
 import requests
 from bs4 import BeautifulSoup as BS
+
 HEADERS = {'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
-                         'Chrome/86.0.4240.111 Safari/537.36', 'accept': '*/*', 'cookie': 'G_AUTHUSER_H=0; G_ENABLED_IDPS=google; _ga=GA1.1.1708452945.1603900516; G_AUTHUSER_H=0; df_id=93a48948b52daf05e4f48c9f0e15a37d; xf_user=3626977%2C5095f49fae7649341ebe39a668dc4d66fc2cf4a6; xf_logged_in=1; xf_session=736654ce9b5a156fdf2bf94a69c0265b; xf_market_items_viewed=8103659; xf_market_custom_cat_id=2; xf_market_search_url=%2Fmarket%3Fcategory_id%3D2%26_loadSearchBar%3Dtrue%26title%3D%26_xfRequestUri%3D%252Fmarket%252F%26_xfNoRedirect%3D1%26_xfToken%3D3626977%252C1604229396%252C385cb84b3d3bb290650e7a0e188a6514f1eafb89%26_xfResponseType%3Djson; _ga_J7RS527GFK=GS1.1.1604227707.6.1.1604229406.0'
+                         'Chrome/86.0.4240.111 Safari/537.36', 'accept': '*/*',
+           'cookie': 'G_AUTHUSER_H=0; G_ENABLED_IDPS=google; _ga=GA1.1.1708452945.1603900516; G_AUTHUSER_H=0; df_id=93a48948b52daf05e4f48c9f0e15a37d; xf_user=3626977%2C5095f49fae7649341ebe39a668dc4d66fc2cf4a6; xf_logged_in=1; xf_session=736654ce9b5a156fdf2bf94a69c0265b; xf_market_items_viewed=8103659; xf_market_custom_cat_id=2; xf_market_search_url=%2Fmarket%3Fcategory_id%3D2%26_loadSearchBar%3Dtrue%26title%3D%26_xfRequestUri%3D%252Fmarket%252F%26_xfNoRedirect%3D1%26_xfToken%3D3626977%252C1604229396%252C385cb84b3d3bb290650e7a0e188a6514f1eafb89%26_xfResponseType%3Djson; _ga_J7RS527GFK=GS1.1.1604227707.6.1.1604229406.0'
            }
+
 
 class train_dict:
     """Информация о поезеде"""
+
     def __init__(self):
         self.number = None
         self.link = None
@@ -20,9 +24,10 @@ class train_dict:
         self.time_iz = None
         self.time_v = None
         self.rating = None
-        self.price = {"Купе": None, "СВ": None, "Плацкарт": None, "Базовый класс": None, "Эконом класс": None,
-             "Экономический +": None, "Вагон-бистро": None, "Бизнес класс": None,
-             "Первый класс": None, "Купе-переговорная": None}
+        self.price = {"Люкс": 0, "Купе-Сьют": 0, "Сидячий": 0, "Купе": 0, "СВ": 0, "Плацкарт": 0, "Базовый класс": 0,
+                      "Эконом класс": 0,
+                      "Экономический +": 0, "Вагон-бистро": 0, "Бизнес класс": 0,
+                      "Первый класс": 0, "Купе-переговорная": 0}
 
     def dict_print(self):
         print(self.number, self.link, self.city_iz, self.vokzal_iz, self.time_iz, self.citi_v, self.vokzal_v,
@@ -30,10 +35,9 @@ class train_dict:
         print(self.price)
 
 
-
 class train_parse:
     """Класс для парсинга поездов"""
-    link = "https://www.ufs-online.ru/kupit-zhd-bilety/moskva/sankt-peterburg?date=24.02.2021&returnDate=25.02.2021"
+    link = "https://www.ufs-online.ru/kupit-zhd-bilety/moskva/sankt-peterburg?date=24.03.2021&returnDate=25.03.2021"
 
     def __init__(self, city_from, city_to, day, month):
         self.city_from = city_from
@@ -45,6 +49,22 @@ class train_parse:
     def get_Res(self):
         """Получение результатов парсинга"""
         return self.result
+
+    def get_average(self):
+        aver_sum = train_dict()
+        aver_kol = train_dict()
+        for t in self.result:
+            for k in t.price:
+                if k not in aver_sum.price:
+                    aver_sum.price[k] = 0
+                    aver_kol.price[k] = 0
+                if t.price[k] != 0:
+                    aver_sum.price[k] += float(t.price[k])
+                    aver_kol.price[k] += 1
+        for k in aver_sum.price:
+            if aver_kol.price[k] != 0:
+                aver_sum.price[k] = round(aver_sum.price[k] / aver_kol.price[k], 2)
+        print(aver_sum.price)
 
     def __linkUpdate(self):
         """Модификация ссылки с учетом вводных данных"""
@@ -84,7 +104,7 @@ class train_parse:
                 l.type = ""
             else:
                 c = str(c)
-                c = c[c.find(">")+1:]
+                c = c[c.find(">") + 1:]
                 l.type = c[c.find(">") + 1:c.find("</")]
             # Оценка
             b = str(b.find("div", class_="wg-train-rating"))
@@ -105,12 +125,13 @@ class train_parse:
             a = a.find_all("div", "wg-wagon-type__item")
             for i in a:
                 key = str(i.find("div", class_="wg-wagon-type__title").get_text())
-                l.price[key] = str(i.find("span", class_="wg-wagon-type__price-value").get_text())[:-6]
+                l.price[key] = str(i.find("span", class_="wg-wagon-type__price-value").get_text())[:-6].replace(',',
+                                                                                                                '.').replace(
+                    ' ', '')
             all_data.append(l)
         return all_data
 
 
 a = train_parse(1, 1, 1, 1)
 b = a.get_Res()
-for i in b:
-    i.dict_print()
+a.get_average()

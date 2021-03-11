@@ -25,29 +25,25 @@ for i in cities:
         city_code = get_city_code.get_IATA_code(i)
         city_code = city_code.get_res()
         cities_codes.append(city_code)
+# 3.2 Для каждой конференции считается цена на билет на поезд/цена на билет на самолет/проживание
 sr_samolet = []
 sr_otel = []
 import fly_price_info
-for i in cities_codes:
-    if i == -1:
-        sr_samolet.append(-1)
-    elif i == home_city_code:
-        sr_samolet.append(0)
-    else:
-        samolet_price = fly_price_info.fly_price_info(home_city_code,i)
-        samolet_price = samolet_price.get_res()
-        sr_samolet.append(samolet_price)
 import hotel_api
-for i in range(0, len(cities_codes)):
-    if cities_codes[i] == -1:
+for j in range(0, len(cities_codes)):
+    if cities_codes[j] == -1:
+        sr_samolet.append(-1)
         sr_otel.append(-1)
-    elif cities_codes[i] == home_city_code:
+    elif cities_codes[j] == home_city_code:
+        sr_samolet.append(0)
         sr_otel.append(0)
     else:
-        otel_price = hotel_api.hotel_api(cities_codes[i], dates_conf_start[i], dates_conf_finish[i])
+        samolet_price = fly_price_info.fly_price_info(home_city_code, cities_codes[j])
+        samolet_price = samolet_price.get_res()
+        sr_samolet.append(samolet_price)
+        otel_price = hotel_api.hotel_api(cities_codes[j], dates_conf_start[j], dates_conf_finish[j])
         otel_price = otel_price.get_res()
         sr_otel.append(otel_price)
-#3.2 Для каждой конференции считается цена на билет на поезд/цена на билет на самолет/проживание
 
 #4 Выводятся результаты
 for i in range(0, len(cities)):

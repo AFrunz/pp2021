@@ -1,5 +1,8 @@
+"""Не работает"""
+
 from Selenium_parse import fly_selenium
 import time
+
 
 class hotel_selenium(fly_selenium):
 
@@ -7,10 +10,6 @@ class hotel_selenium(fly_selenium):
         price_but = self.browser.find_element_by_class_name("_t6p96s")
         price_but.click()
         time.sleep(1000)
-
-
-
-
 
 
 class Hotel_parser:

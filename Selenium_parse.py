@@ -1,3 +1,6 @@
+"""Получение страницы с помощью селениума"""
+
+
 from selenium import webdriver
 import time
 

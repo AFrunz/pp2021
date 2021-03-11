@@ -1,3 +1,6 @@
+"""Парсинг билетов самолетов, возваращет компанию, ссылку, цену,
+и тд"""
+
 from bs4 import BeautifulSoup as BS
 import Selenium_parse
 
@@ -20,6 +23,7 @@ class plane_dict:
         """Вывод переменных"""
         print(self.company, self.link, self.price, self.transplants, self.port_iz, self.time_iz, self.port_v,self.time_v, self.type, self.bag)
 
+
 class fly_ticket:
     def __init__(self, city_from, city_to, day, month):
         self.city_from = city_from
@@ -36,8 +40,8 @@ class fly_ticket:
         self.link = link
 
     def __parse(self):
-        a = Selenium_parse.fly_selenium(self.link)
-        html = a.get_res()
+        bi = Selenium_parse.fly_selenium(self.link)
+        html = bi.get_res()
         self.__get_info(html)
 
     def get_res(self):

@@ -13,17 +13,34 @@ import get_city_code
 import fly_price_info
 import hotel_api
 import train_pars
+from hotel_api import strtodate
+
+
+def date_filtr(data_p_s, data_p_e, s_conf):
+    right_dates = []
+    data_p_s = strtodate(data_p_s)
+    data_p_e = strtodate(data_p_e)
+    for i in s_conf:
+        date_s = strtodate(i.date_start)
+        date_e = strtodate(i.date_end)
+        if data_p_s<date_s and date_s<data_p_e and data_p_s<date_e and date_e<data_p_e:
+            right_dates.append(i)
+    return right_dates
 
 # 1. Пользователь выбирает тематику
 # Допустим пользователь выбрал тематикой математику. Также допустим, что человек живет в Москве.
 
 tema = "Математика"
 home_city = "Москва"
+data_p_s = "1апреля2021г"
+data_p_e = "31апреля2021г"
+
 
 # 2. Поиск всех конференций по тематике
 
 s_conf = conf_pars.Conf_parser(1, 1, 1, 1)
 s_conf = s_conf.getRes()
+s_conf = date_filtr(data_p_s,data_p_e,s_conf)
 home_city_code = get_city_code.get_IATA_code(home_city)
 home_city_code = home_city_code.get_res()
 

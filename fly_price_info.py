@@ -54,5 +54,3 @@ class fly_price_info:
         return self.sr
 
 
-b = fly_price_info("MOW", "PEE", "2021-03-14", "2021-03-19")
-c = b.get_res()

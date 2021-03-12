@@ -147,6 +147,3 @@ class train_parse:
             all_data.append(l)
         return all_data
 
-
-a = train_parse("Москва", "Санкт-Петербург", "24апреля2021г", "26апреля2021г")
-print(a.get_average())

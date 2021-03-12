@@ -90,3 +90,7 @@ class Conf_parser:
             array_of_inf.append(a)
         return array_of_inf
 
+a = Conf_parser(1,1,1,1)
+c = a.getRes()
+for i in c:
+    print(i.date_start, i.date_end)

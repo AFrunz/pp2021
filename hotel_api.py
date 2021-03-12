@@ -5,6 +5,7 @@
 import requests
 import json
 
+
 def strtodate(date):
     day = ''
     month = ''

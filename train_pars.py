@@ -76,14 +76,14 @@ class train_parse:
         for k in aver_sum.price:
             if aver_kol.price[k] != 0:
                 aver_sum.price[k] = round(aver_sum.price[k] / aver_kol.price[k], 2)
-        print(aver_sum.price)
+        return aver_sum.price["Плацкарт"]
 
     def __linkUpdate(self):
         """Модификация ссылки с учетом вводных данных"""
         link = "https://www.ufs-online.ru/kupit-zhd-bilety/"
         to = "moskva/sankt-peterburg?date=24.03.2021&returnDate=25.03.2021"
         dop = self.city_from + '/' + self.city_to + '?date=' + self.date_start + "&returnDate=" + self.date_finish
-        self.link = link + dop
+        self.link = (link + dop).lower()
 
     def __parse(self):
         """Основа парсера"""
@@ -148,3 +148,5 @@ class train_parse:
         return all_data
 
 
+a = train_parse("Москва", "Санкт-Петербург", "24апреля2021г", "26апреля2021г")
+print(a.get_average())

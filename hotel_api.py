@@ -26,6 +26,7 @@ def strtodate(date):
     return date
 
 
+
 class hotel_api:
 
     def __init__(self, city, start_date, finish_date):

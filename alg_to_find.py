@@ -9,16 +9,14 @@
 # 7) Далее зависит от интерфейса, пока оставляем
 
 
-
-
-
-#1. Пользователь выбирает тематику
-    #Допустим пользователь выбрал тематикой математику. Также допустим, что человек живет в Москве.
+# 1. Пользователь выбирает тематику
+# Допустим пользователь выбрал тематикой математику. Также допустим, что человек живет в Москве.
 tema = "Математика"
 home_city = "Москва"
-#2. Поиск всех конференций по тематике
+# 2. Поиск всех конференций по тематике
 import conf_pars
 import get_city_code
+
 s_conf = conf_pars.Conf_parser(1, 1, 1, 1)
 s_conf = s_conf.getRes()
 data = []
@@ -30,11 +28,13 @@ for i in s_conf:
     else:
         city_code = get_city_code.get_IATA_code(i.city)
         city_code = city_code.get_res()
-        p_data = {"city": i.city, "code": city_code, "dn": "2021-03-25", "df": "2021-03-27"}#Когда преобразуем дату - поменяем
+        p_data = {"city": i.city, "code": city_code, "dn": "2021-03-25",
+                  "df": "2021-03-27"}  # Когда преобразуем дату - поменяем
     data.append(p_data)
 # 3.2 Для каждой конференции считается цена на билет на поезд/цена на билет на самолет/проживание
 import fly_price_info
 import hotel_api
+
 for j in data:
     if j["code"] == -1:
         j["plane"] = -1
@@ -50,19 +50,19 @@ for j in data:
         otel_price = otel_price.get_res()
         j["hotel"] = otel_price
 
-#4 Выводятся результаты
+# 4 Выводятся результаты
 for i in data:
-    print("Конференция будет в городе " + i["city"], end = ',')
+    print("Конференция будет в городе " + i["city"], end=',')
     if i["city"] == home_city:
         print("вы живете в этом городе")
     elif i["code"] == -1:
         print("средняя цена не найдена")
     else:
-        if i["plane"]!= -1:
-            print("средняя цена на самолет = " + str(i["plane"]), end = ',')
+        if i["plane"] != -1:
+            print("средняя цена на самолет = " + str(i["plane"]), end=',')
         else:
-            print("средняя цена на самолет не найдена", end = ',')
-        if i["hotel"]!= -1:
+            print("средняя цена на самолет не найдена", end=',')
+        if i["hotel"] != -1:
             print("средняя цена на отель = " + str(i["hotel"]))
         else:
             print("средняя цена на отель не найдена")

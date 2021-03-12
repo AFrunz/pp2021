@@ -30,9 +30,9 @@ home_city_code = home_city_code.get_res()
 # 3.2 Для каждой конференции считается цена на билет на поезд/цена на билет на самолет/проживание
 
 for j in s_conf:
-    city_code = get_city_code.get_IATA_code(i.city)
+    city_code = get_city_code.get_IATA_code(j.city)
     city_code = city_code.get_res()
-    i.code = city_code
+    j.code = city_code
     if j.code == -1:
         j.train = -1
         j.plane = -1

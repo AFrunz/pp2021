@@ -4,12 +4,25 @@
 
 import requests
 from bs4 import BeautifulSoup as BS
+from hotel_api import strtodate
 
 HEADERS = {'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
                          'Chrome/86.0.4240.111 Safari/537.36', 'accept': '*/*',
            'cookie': 'G_AUTHUSER_H=0; G_ENABLED_IDPS=google; _ga=GA1.1.1708452945.1603900516; G_AUTHUSER_H=0; df_id=93a48948b52daf05e4f48c9f0e15a37d; xf_user=3626977%2C5095f49fae7649341ebe39a668dc4d66fc2cf4a6; xf_logged_in=1; xf_session=736654ce9b5a156fdf2bf94a69c0265b; xf_market_items_viewed=8103659; xf_market_custom_cat_id=2; xf_market_search_url=%2Fmarket%3Fcategory_id%3D2%26_loadSearchBar%3Dtrue%26title%3D%26_xfRequestUri%3D%252Fmarket%252F%26_xfNoRedirect%3D1%26_xfToken%3D3626977%252C1604229396%252C385cb84b3d3bb290650e7a0e188a6514f1eafb89%26_xfResponseType%3Djson; _ga_J7RS527GFK=GS1.1.1604227707.6.1.1604229406.0'
            }
 
+
+def transliteration2(text):
+    cyrillic = 'абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ'
+    latin = 'a|b|v|g|d|e|e|zh|z|i|i|k|l|m|n|o|p|r|s|t|u|f|kh|tc|ch|sh|shch||y||e|iu|ia|A|B|V|G|D|E|E|Zh|Z|I|I|K|L|M|N|O|P|R|S|T|U|F|Kh|Tc|Ch|Sh|Shch||Y||E|Iu|Ia'.split(
+        '|')
+    return text.translate({ord(k): v for k, v in zip(cyrillic, latin)})
+
+
+def strtodate2(date):
+    date = strtodate(date)
+    date = date[-2:] + '.' + date[-5:-3] + '.' + date[:4]
+    return date
 
 class train_dict:
     """Информация о поезеде"""
@@ -37,13 +50,12 @@ class train_dict:
 
 class train_parse:
     """Класс для парсинга поездов"""
-    link = "https://www.ufs-online.ru/kupit-zhd-bilety/moskva/sankt-peterburg?date=24.03.2021&returnDate=25.03.2021"
 
-    def __init__(self, city_from, city_to, day, month):
-        self.city_from = city_from
-        self.city_to = city_to
-        self.day = day
-        self.month = month
+    def __init__(self, city_from, city_to, date_start, date_finish):
+        self.city_from = transliteration2(city_from)
+        self.city_to = transliteration2(city_to)
+        self.date_start = strtodate2(date_start)
+        self.date_finish = strtodate2(date_finish)
         self.__parse()
 
     def get_Res(self):
@@ -68,10 +80,14 @@ class train_parse:
 
     def __linkUpdate(self):
         """Модификация ссылки с учетом вводных данных"""
-        pass
+        link = "https://www.ufs-online.ru/kupit-zhd-bilety/"
+        to = "moskva/sankt-peterburg?date=24.03.2021&returnDate=25.03.2021"
+        dop = self.city_from + '/' + self.city_to + '?date=' + self.date_start + "&returnDate=" + self.date_finish
+        self.link = link + dop
 
     def __parse(self):
         """Основа парсера"""
+        self.__linkUpdate()
         Html = self.__getHTML()
         self.result = self.__getInf(Html)
 
@@ -132,6 +148,3 @@ class train_parse:
         return all_data
 
 
-a = train_parse(1, 1, 1, 1)
-b = a.get_Res()
-a.get_average()

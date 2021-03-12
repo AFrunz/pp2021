@@ -21,9 +21,13 @@ class Global_dict:
         self.Country = None
         self.city = None
         self.link = None
+        self.code= None
+        self.train = None
+        self.plane = None
+        self.hotel = None
 
     def Print_s(self):
-        print(self.date_start, self.date_end, self.application_end, self.Name, self.link, self.city, self.Country)
+        print(self.date_start, self.date_end, self.application_end, self.Name, self.link, self.city, self.Country, self.code, self.train, self.plane, self.hotel)
 
 
 class Conf_parser:
@@ -89,8 +93,3 @@ class Conf_parser:
             a.city = s[s.find(",") + 2:s.rfind("<")]
             array_of_inf.append(a)
         return array_of_inf
-
-a = Conf_parser(1,1,1,1)
-c = a.getRes()
-for i in c:
-    print(i.date_start, i.date_end)

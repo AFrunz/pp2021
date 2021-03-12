@@ -4,14 +4,15 @@
 
 import requests
 import json
+from hotel_api import strtodate
 
 class fly_price_info:
     """Класс возвращает среднюю цену по перелетам"""
     def __init__(self, origin, destination, date_start, date_finish):
         self.origin = origin
         self.destination = destination
-        self.date_start = date_start
-        self.date_finish = date_finish
+        self.date_start = strtodate(date_start)
+        self.date_finish = strtodate(date_finish)
         self.__link_up()
         self.__get()
         self.__analysys()

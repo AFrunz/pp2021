@@ -1,0 +1,43 @@
+.main {
+    font: 18px Corbel;
+}
+
+.input_fields {
+    margin: 50px;
+    background-color: #bbe9d8;
+    font: 18px Corbel;
+    border-radius: 300px;
+}
+
+label {
+    margin: 10px;
+}
+
+.search_txt {
+    margin: 20px;
+    width: 170px;
+    height: 20px;
+    background-color: #dce6ef;
+    font: 14px "Times New Roman";
+    border-radius: 5px;
+
+}
+
+#keywords {
+    width: 350px;
+}
+
+.button_search {
+    width: 150px;
+    height: 30px;
+    margin: 25px;
+    font: 18px Calibri;
+    background-color: #dcefec;
+    border-radius: 5px;
+}
+
+body {
+    background-color: #d4f5f2;
+    text-align: center;
+    align-content: center;
+}

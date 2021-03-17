@@ -192,20 +192,82 @@
             <label>Выберите диапазон удобных дат</label>
             <br>
             <label for="date_start">От</label>
-            <input type="date" id="date_start">
+            <input class="search_txt" type="date" id="date_start">
             <label for="date_finish">До</label>
-            <input type="date" id="date_finish" value="" placeholder="">
+            <input class="search_txt" type="date" id="date_finish" value="" placeholder="">
             <br>
             <button class="button_search">Поиск</button>
         </form>
     </div>
-
+<!-- Результаты: Конференция и цена проезда и проживания-->
     <div class="conf_results">
+        <!-- Блок с конференцией-->
+        <div class="conf_block">
+            <div class="ul1">
+                <div class="params1">
+                    <div class="conf_head">
+                        Название конференции
+                    </div>
+                </div>
+                <div class="params1">
+                    <div class="price">
+                        Страна и город проведения
+                    </div>
+                </div>
+                <div class="params1">
+                    Дата проведения
+                </div>
+            </div>
+            <div class="ul2">
+                <input class="check" type="checkbox">
+                <div class="params">
+                    <div class="price">
+                        <div class="train_price">
+                            <div class="fields_name">Поезд</div>
+                            <ul>
+                                <li>Название 1:     цена 1</li>
+                                <li>Название 2:     цена 2</li>
+                                <li>Название 3:     цена 3</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="params">
+                    <div class="price">
+                        <div class="train_price">
+                            <div class="fields_name">Самолет</div>
+                            <div>Цена</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="params">
+                    <div class="hotel_price">
+                        <div class="field-name">Отель</div>
+                        <div>Цена на отель</div>
+                    </div>
+                </div>
+                <div class="params">
+                   <div class="field-name">Примерная стоимость:   </div>
+                </div>
+            </div>
 
 
+
+        </div>
+    </div>
+<!-- Кнопка получения рез-в-->
+    <div class="search">
+        <button class="button_search_transport">Посмотреть варианты транспорта</button>
     </div>
 
 
+
+
+
+
+
+<br>
+<br><br><br><br><br><br><br><br><br><br><br><br><br>
 
 </body>
 </html>

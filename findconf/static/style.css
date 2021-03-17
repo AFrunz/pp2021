@@ -1,5 +1,6 @@
 .main {
     font: 18px Corbel;
+    text-align: center;
 }
 
 .input_fields {
@@ -7,6 +8,7 @@
     background-color: #bbe9d8;
     font: 18px Corbel;
     border-radius: 300px;
+    text-align: center;
 }
 
 label {
@@ -27,6 +29,39 @@ label {
     width: 350px;
 }
 
+
+.params1 {
+    display: inline-block;
+    list-style: none;
+    width: 31%;
+    height: 30px;
+    margin: 10px;
+    float: left;
+    text-align: center;
+}
+
+.params {
+    padding-left: 10px;
+    padding-top: 5px;
+    display: inline-block;
+    list-style: none;
+    width: 20%;
+    height: 100px;
+    margin-left: 15px;
+    margin-right: 18px;
+    background-color: aquamarine;
+    border-radius: 10px;
+    float: left;
+}
+
+.ul1 {
+    padding: 0;
+}
+.ul2 {
+    padding: 0;
+    width: 100%;
+}
+
 .button_search {
     width: 150px;
     height: 30px;
@@ -38,6 +73,34 @@ label {
 
 body {
     background-color: #d4f5f2;
+}
+
+.conf_block {
+    margin: 20px;
+    margin-left: 10px;
+    margin-right:10px;
+    border-radius: 10px;
+    background-color: #f5dddd;
+    height: 170px;
+}
+
+.check {
+    display: inline-block;
+    float: left;
+    margin-top: 13px;
+    width: 25px;
+    zoom: 2.5;
+}
+
+.button_search_transport {
+    width: 350px;
+    height: 40px;
+    margin: 5px;
+    font: 18px Calibri;
+    background-color: #dcefec;
+    border-radius: 5px;
+}
+
+.search {
     text-align: center;
-    align-content: center;
 }

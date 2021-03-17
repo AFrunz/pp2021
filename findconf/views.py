@@ -6,5 +6,8 @@ from .alg_to_find import *
 def index(request):
     return render(request, 'findconf/index.html')
 
-def test(request):
-    return render(request, 'findconf/next_step.html')
+def second_step(request):
+    return render(request, 'findconf/second_step.html')
+
+def third_step(request):
+    return render(request, 'findconf/third_step.html')

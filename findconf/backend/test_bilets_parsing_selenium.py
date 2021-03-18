@@ -114,8 +114,8 @@ class fly_ticket:
         self.data = g_dict
 
 
-b = fly_ticket(1, 1, 1, 1)
-a = b.get_res()
-for i in a:
-    i.Print_s()
+# b = fly_ticket(1, 1, 1, 1)
+# a = b.get_res()
+# for i in a:
+#     i.Print_s()
 

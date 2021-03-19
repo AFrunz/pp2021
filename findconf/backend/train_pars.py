@@ -10,6 +10,7 @@
 import requests
 from bs4 import BeautifulSoup as BS
 from findconf.backend.hotel_api import strtodate
+from findconf.models import train_info
 
 HEADERS = {'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
                          'Chrome/86.0.4240.111 Safari/537.36', 'accept': '*/*',
@@ -37,7 +38,7 @@ class train_dict:
         self.link = None
         self.city_iz = None
         self.vokzal_iz = None
-        self.citi_v = None
+        self.city_v = None
         self.vokzal_v = None
         self.time_iz = None
         self.time_v = None
@@ -61,6 +62,8 @@ class train_parse:
         self.city_to = transliteration2(city_to)
         self.date_start = strtodate2(date_start)
         self.date_finish = strtodate2(date_finish)
+        self.old_ds = strtodate(date_start)
+        self.old_df = strtodate(date_finish)
         self.__parse()
 
     def get_Res(self):
@@ -89,6 +92,14 @@ class train_parse:
         to = "moskva/sankt-peterburg?date=24.03.2021&returnDate=25.03.2021"
         dop = self.city_from + '/' + self.city_to + '?date=' + self.date_start + "&returnDate=" + self.date_finish
         self.link = (link + dop).lower()
+
+    def __push_table(self, l):
+        a = train_info(number=l.number, link=l.link, city_iz=l.city_iz, vokzal_iz=l.vokzal_iz,
+                       time_iz=l.time_iz, date_iz=self.old_ds, city_v=l.city_v,
+                       vokzal_v=l.vokzal_v, time_v=l.time_v, date_v=self.old_df,
+                       price_1=l.price["Плацкарт"], price_2=l.price["Купе"], price_3=l.price["СВ"])
+        a.save()
+
 
     def __parse(self):
         """Основа парсера"""
@@ -149,9 +160,9 @@ class train_parse:
                 l.price[key] = str(i.find("span", class_="wg-wagon-type__price-value").get_text())[:-6].replace(',',
                                                                                                                 '.').replace(
                     ' ', '')
+            self.__push_table(l)
             all_data.append(l)
         return all_data
 
 
-# a = train_parse("Москва", "Санкт-Петербург", "24апреля2021г", "26апреля2021г")
-# print(a.get_average())
+a = train_parse("Москва", "Санкт-Петербург", "24апреля2021г", "26апреля2021г")

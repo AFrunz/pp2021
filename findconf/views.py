@@ -12,5 +12,5 @@ def second_step(request):
 
 def third_step(request):
     a = train_parse("Москва", "Санкт-Петербург", "24апреля2021г", "26апреля2021г")
-    print(a.get_Res())
+    print(a.get_average())
     return render(request, 'findconf/third_step.html')

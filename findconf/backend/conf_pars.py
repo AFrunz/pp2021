@@ -108,5 +108,5 @@ class Conf_parser:
         return array_of_inf
 
 
-a = Conf_parser(1, 1, "31марта2021г", "31июня2022г", 1, 1)
-print(a.getRes())
+# a = Conf_parser(1, 1, "31марта2021г", "31июня2022г", 1, 1)
+# print(a.getRes())

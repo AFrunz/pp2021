@@ -4,13 +4,13 @@
 рейтинг и цена"""
 """Сейчас считает среднюю по каждой категории"""
 """Доработать: 
-1) Сделать выгрузку данных в бд
+1) Сделать выгрузку данных в бд (сделано)
 2) Доработать возвращаемое среднее значение, сделать словарь из 5 значений, 3 обычных вагона и 2 сапсана"""
 
 import requests
 from bs4 import BeautifulSoup as BS
 from findconf.backend.hotel_api import strtodate
-from findconf.models import train_info
+from findconf.models import train_inf, train_sr
 
 HEADERS = {'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
                          'Chrome/86.0.4240.111 Safari/537.36', 'accept': '*/*',
@@ -70,7 +70,10 @@ class train_parse:
         """Получение результатов парсинга"""
         return self.result
 
-    def get_average(self):
+    def get_aver(self):
+        return self.aver
+
+    def __get_average(self):
         aver_sum = train_dict()
         aver_kol = train_dict()
         for t in self.result:
@@ -84,6 +87,7 @@ class train_parse:
         for k in aver_sum.price:
             if aver_kol.price[k] != 0:
                 aver_sum.price[k] = round(aver_sum.price[k] / aver_kol.price[k], 2)
+        self.__push_sr(aver_sum.price)
         return aver_sum.price["Плацкарт"]
 
     def __linkUpdate(self):
@@ -94,18 +98,23 @@ class train_parse:
         self.link = (link + dop).lower()
 
     def __push_table(self, l):
-        a = train_info(number=l.number, link=l.link, city_iz=l.city_iz, vokzal_iz=l.vokzal_iz,
+        a = train_inf(number=l.number, link=l.link, city_iz=l.city_iz, vokzal_iz=l.vokzal_iz,
                        time_iz=l.time_iz, date_iz=self.old_ds, city_v=l.city_v,
                        vokzal_v=l.vokzal_v, time_v=l.time_v, date_v=self.old_df,
                        price_1=l.price["Плацкарт"], price_2=l.price["Купе"], price_3=l.price["СВ"])
         a.save()
 
+    def __push_sr(self, l):
+        a = train_sr(date_iz=self.old_ds, date_v=self.old_df, city_iz=self.city_from, city_v=self.city_to,
+                     price_1=l["Плацкарт"], price_2=l["Купе"], price_3=l["СВ"])
+        a.save()
 
     def __parse(self):
         """Основа парсера"""
         self.__linkUpdate()
         Html = self.__getHTML()
         self.result = self.__getInf(Html)
+        self.aver = self.__get_average()
 
     def __getHTML(self):
         """Получение HTML кода"""
@@ -165,4 +174,4 @@ class train_parse:
         return all_data
 
 
-a = train_parse("Москва", "Санкт-Петербург", "24апреля2021г", "26апреля2021г")
+# a = train_parse("Москва", "Санкт-Петербург", "24апреля2021г", "26апреля2021г")

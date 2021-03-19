@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .alg_to_find import *
+from .step1 import *
 from .backend.train_pars import train_parse
 
 

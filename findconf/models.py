@@ -35,3 +35,24 @@ class train_sr(models.Model):
 
     def __str__(self):
         return self.city_iz + ' --- ' + self.city_v
+
+
+class hotel_info(models.Model):
+    city = models.CharField('Город', max_length=20)
+    date_start = models.DateField('Дата начала')
+    date_finish = models.DateField('Дата окончания')
+    price = models.FloatField('Средняя цена')
+
+    def __str__(self):
+        return self.city + ': ' + str(self.date_start) + '--' + str(self.date_finish)
+
+
+class avia_info(models.Model):
+    city_iz = models.CharField('Город отправления', max_length=20)
+    city_v = models.CharField('Город прибытия', max_length=20)
+    date_start = models.DateField('Дата начала')
+    date_finish = models.DateField('Дата окончания')
+    price = models.FloatField('Средняя цена')
+
+    def __str__(self):
+        return self.city_iz + '---' + self.city_v

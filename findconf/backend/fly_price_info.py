@@ -9,6 +9,7 @@
 import requests
 import json
 from findconf.backend.hotel_api import strtodate
+from findconf.models import avia_info
 
 class fly_price_info:
     """Класс возвращает среднюю цену по перелетам"""
@@ -20,6 +21,7 @@ class fly_price_info:
         self.__link_up()
         self.__get()
         self.__analysys()
+        self.__table_p()
 
     def __link_up(self):
         """Модификация ссылки"""
@@ -57,4 +59,7 @@ class fly_price_info:
     def get_res(self):
         return self.sr
 
-
+    def __table_p(self):
+        a = avia_info(city_iz=self.origin, city_v=self.destination, date_start=self.date_start,
+                      date_finish=self.date_finish, price=self.sr)
+        a.save()

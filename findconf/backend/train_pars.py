@@ -49,7 +49,7 @@ class train_dict:
                       "Первый класс": 0, "Купе-переговорная": 0}
 
     def dict_print(self):
-        print(self.number, self.link, self.city_iz, self.vokzal_iz, self.time_iz, self.citi_v, self.vokzal_v,
+        print(self.number, self.link, self.city_iz, self.vokzal_iz, self.time_iz, self.city_v, self.vokzal_v,
               self.time_v, self.rating)
         print(self.price)
 
@@ -88,7 +88,7 @@ class train_parse:
             if aver_kol.price[k] != 0:
                 aver_sum.price[k] = round(aver_sum.price[k] / aver_kol.price[k], 2)
         self.__push_sr(aver_sum.price)
-        return aver_sum.price["Плацкарт"]
+        return {"Плацкарт": aver_sum.price["Плацкарт"], "Купе": aver_sum.price["Купе"], "СВ": aver_sum.price["СВ"]}
 
     def __linkUpdate(self):
         """Модификация ссылки с учетом вводных данных"""

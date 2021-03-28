@@ -12,11 +12,11 @@
     </div>
 <!--Поля ввода-->
     <div class="input_fields">
-        <form method="post" action="test/">
+        <form method="post" name="form_1" action="search/">
             {% csrf_token %}
         <!--Выбор страны проживания-->
             <label for="select_country">Выберите страну вашего проживания</label>
-            <select class="search_txt" id="select_country">
+            <select name="country" class="search_txt" id="select_country">
                 <option value="">Выберите страну</option>
                 <option value="262">Австралия</option>
                 <option value="15">Австрия</option>
@@ -102,13 +102,13 @@
             <br>
         <!--Выбор города проживания-->
             <label for="select_city">Выберите город вашего проживания</label>
-            <select class="search_txt" id="select_city">
+            <select name="city" class="search_txt" id="select_city">
                 <option value="">Выберите город</option>
             </select>
             <br>
             <!--Выбор темы конференции-->
             <label for="select_theme">Выберите тематику вашей конференции</label>
-            <select class="search_txt" id="select_theme">
+            <select name="select_theme" class="search_txt" id="select_theme">
                 <option value="">Выберите тематику</option>
                 <option value="30">Археология</option>
                 <option value="60">Архитектура, Строительство</option>
@@ -181,13 +181,13 @@
             <br>
         <!--Ввод ключевых слов-->
             <label for="keywords">Ключевые слова</label>
-            <input type="text" class="search_txt" placeholder="Найти" value="" id="keywords">
+            <input name="keywords" type="text" class="search_txt" placeholder="Найти" value="" id="keywords">
         <!--Ввод диапазона цен(бюджет)-->
             <br>
             <label for="price_low">Введите ваш бюджет</label>
-            <input class="search_txt" type="number" placeholder="От" value="" id="price_low">
+            <input name="price_low" class="search_txt" type="number" placeholder="От" value="" id="price_low">
             <label for="price_up"></label>
-            <input class="search_txt" type="number" placeholder="До" value="" id="price_up">
+            <input name="price_up" class="search_txt" type="number" placeholder="До" value="" id="price_up">
         <!--Ввод диапазона дат-->
             <br>
             <label>Выберите диапазон удобных дат</label>
@@ -197,7 +197,7 @@
             <label for="date_finish">До</label>
             <input class="search_txt" type="date" id="date_finish" value="" placeholder="">
             <br>
-            <button type="submit" onclick="ClickFunction()" class="button_search">Поиск</button>
+            <button type="submit" class="button_search">Поиск</button>
         </form>
     </div>
 

@@ -4,6 +4,7 @@
 
 import requests
 import json
+from findconf.models import hotel_info
 
 
 def strtodate(date):
@@ -26,7 +27,6 @@ def strtodate(date):
     return date
 
 
-
 class hotel_api:
 
     def __init__(self, city, start_date, finish_date):
@@ -34,6 +34,7 @@ class hotel_api:
         self.start_date = strtodate(start_date)
         self.finish_date = strtodate(finish_date)
         self.__getInfo()
+        self.__table_p()
 
     def __linkup(self):
         link_city = "location=" + self.city
@@ -66,3 +67,7 @@ class hotel_api:
     def get_res(self):
         return self.res
 
+    def __table_p(self):
+        a = hotel_info(city=self.city, date_start=self.start_date, date_finish=self.finish_date,
+                       price=self.res)
+        a.save()

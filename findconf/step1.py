@@ -66,10 +66,13 @@ def get_res():
                 plane_price = fly_price_info.fly_price_info(home_city_code, j["code"], j["date_start"], j["date_end"])
                 j["plane"] = plane_price.get_res()
             else:
-                plane_price = tab
-                j["plane"] = plane_price
-            hotel_price = h.hotel_api(j["code"], j["date_start"], j["date_end"])
-            j["hotel"] = hotel_price.get_res()
+                j["plane"] = tab
+            tab = table_hotel_sr(j["code"], strtodate(j["date_start"]), strtodate(j["date_end"]))
+            if tab == -1:
+                hotel_price = h.hotel_api(j["code"], j["date_start"], j["date_end"])
+                j["hotel"] = hotel_price.get_res()
+            else:
+                j["hotel"] = tab
             if not price_filtr(j["hotel"], money_max):
                 s_conf.remove(j)
                 continue
@@ -89,9 +92,17 @@ def get_res():
             i["train"] = train_price
     print(time.time() - t1)
 
+
 def table_avia_sr(city_iz, city_v, date_start, date_finish):
     a = avia_info.objects.filter(city_iz=city_iz, city_v=city_v, date_start=date_start,
                                  date_finish=date_finish)
+    for i in a:
+        return i.price
+    return -1
+
+
+def table_hotel_sr(city, date_start, date_finish):
+    a = hotel_info.objects.filter(city=city, date_start=date_start, date_finish=date_finish)
     for i in a:
         return i.price
     return -1

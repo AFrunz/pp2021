@@ -12,7 +12,8 @@
     </div>
 <!--Поля ввода-->
     <div class="input_fields">
-        <form method="post">
+        <form method="post" action="test/">
+            {% csrf_token %}
         <!--Выбор страны проживания-->
             <label for="select_country">Выберите страну вашего проживания</label>
             <select class="search_txt" id="select_country">
@@ -196,25 +197,25 @@
             <label for="date_finish">До</label>
             <input class="search_txt" type="date" id="date_finish" value="" placeholder="">
             <br>
-            <button onclick="ClickFunction()" class="button_search">Поиск</button>
+            <button type="submit" onclick="ClickFunction()" class="button_search">Поиск</button>
         </form>
     </div>
 
-<script>
-function ClickFunction() {
-
-    let cntry = document.getElementById("select_country").value;
-    let city = document.getElementById("select_city").value;
-    let theme = document.getElementById("select_theme").value;
-    let keywords = document.getElementById("keywords").value;
-    let priceless = document.getElementById("price_low").value;
-    let pricemore = document.getElementById("price_up"). value;
-    let s_date = document.getElementById("date_start").value;
-    let f_date = document.getElementById("date_finish").value;
-    alert(cntry+" "+ city + " " + theme + " " + keywords + " " + priceless+ " "+pricemore + " " + s_date + " "+ f_date);
-    return cntry,city,theme,keywords,priceless, pricemore, s_date, f_date;
-}
-</script>
+{#<script>#}
+{#function ClickFunction() {#}
+{##}
+{#    let cntry = document.getElementById("select_country").value;#}
+{#    let city = document.getElementById("select_city").value;#}
+{#    let theme = document.getElementById("select_theme").value;#}
+{#    let keywords = document.getElementById("keywords").value;#}
+{#    let priceless = document.getElementById("price_low").value;#}
+{#    let pricemore = document.getElementById("price_up"). value;#}
+{#    let s_date = document.getElementById("date_start").value;#}
+{#    let f_date = document.getElementById("date_finish").value;#}
+{#    alert(cntry+" "+ city + " " + theme + " " + keywords + " " + priceless+ " "+pricemore + " " + s_date + " "+ f_date);#}
+{#    return cntry,city,theme,keywords,priceless, pricemore, s_date, f_date;#}
+{#}#}
+{#</script>#}
 
 </body>
 </html>

@@ -10,13 +10,22 @@ def index(request):
 
 
 def second_step(request):
-    conf = get_res()
-    if request.method == "GET":
-        print(request.GET.get("ad"))
+    link = '/search/?country=&city=&theme=&keywords=&money_ot=&money_do=&date_s=&date_f='
+    if request.method == "POST":
+        country = request.POST.get("country")
+        city = request.POST.get("city")
+        theme = request.POST.get("theme")
+        keywords = request.POST.get("keywords")
+        money_ot = request.POST.get("money_ot")
+        money_do = request.POST.get("money_do")
+        date_s = request.POST.get("date_s")
+        date_f = request.POST.get("date_f")
+        conf = get_res(country, city, theme, keywords, money_ot, money_do, date_s, date_f)
+        return render(request, 'findconf/second_step.html', {"conf": conf})
     if request.method == "POST":
         country = request.POST.get("country")
         print(country)
-    return render(request, 'findconf/second_step.html', {"conf": conf})
+    return render(request, 'findconf/second_step.html')
 
 
 def third_step(request):

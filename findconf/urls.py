@@ -4,5 +4,4 @@ urlpatterns = [
     path('', index),
     path('search/', second_step),
     path('search1/', third_step),
-    path('test/', test),
 ]

@@ -23,13 +23,12 @@ class Conf_parser:
     """Общий класс для парсинга конференций"""
     link = 'https://konferencii.ru/search?advance%5Bkeyword%5D=&advance%5BsearchOr%5D=1&advance%5BstartDate%5D=&advance_startDate=&advance%5BendDate%5D=&advance_endDate=&advance%5Bbackup%5D=1&advance%5BlastRequestDate1%5D=&advance_lastRequestDate1=&advance%5BlastRequestDate2%5D=&advance_lastRequestDate2=&advance%5BcountryId%5D=&advance%5BcityId%5D=&advance%5BeventId%5D=&advance%5BtopicId%5D%5B%5D=40&advance%5BparticalId%5D=&advance%5BorderBy%5D=startDate&advance%5Blimit%5D=20&submit=%D0%98%D1%81%D0%BA%D0%B0%D1%82%D1%8C'
 
-    def __init__(self, country, city, date1, date2, keywords, theme):
+    def __init__(self, date1, date2, keywords, theme):
         self.theme = theme
         self.date1 = date1
         self.date2 = date2
         self.keywords = keywords
-        self.city = city
-        self.country = country
+        self.__linkUpdate()
         self.__parse()
 
     def getRes(self):
@@ -38,7 +37,19 @@ class Conf_parser:
 
     def __linkUpdate(self):
         """Модификация ссылки с учетом вводных данных"""
-        pass
+        if self.keywords is None:
+            self.keywords = ''
+        if self.theme is None:
+            self.theme = ''
+        url_f = "https://konferencii.ru/search?advance%5Bkeyword%5D="
+        url_s = "&advance%5BsearchOr%5D=1&advance%5BstartDate%5D=&advance_startDate=&advance%5BendDate%5D=&advance_endDate=&advance%5Bbackup%5D=1&advance%5BlastRequestDate1%5D=&advance_lastRequestDate1=&advance%5BlastRequestDate2%5D=&advance_lastRequestDate2=&advance%5BcountryId%5D=&advance%5BcityId%5D=&advance%5BeventId%5D=&advance%5BtopicId%5D%5B%5D="
+        url_t = "&advance%5BparticalId%5D=&advance%5BorderBy%5D=startDate&advance%5Blimit%5D=100&submit=Искать"
+        znaki = [",", ";", "!", "?", ":"]
+        for i in znaki:
+            keywords = self.keywords.replace(i, " ")
+        keywords = keywords.replace(" ", "+")
+        url = url_f + keywords + url_s + self.theme + url_t
+        self.link = url
 
     def __parse(self):
         """Основа парсера"""
@@ -52,10 +63,10 @@ class Conf_parser:
 
     def __check(self, start, finish):
         """Проверка на дату"""
-        if start == 0 and finish == 0:
+        if self.date2 is None and self.date1 is None:
             return True
-        if strtodate(self.date2) >= strtodate(start) >= strtodate(self.date1) and strtodate(self.date2) >= \
-                strtodate(finish) >= strtodate(self.date1):
+        if self.date2 >= strtodate(start) >= self.date1 and self.date2 >= \
+                strtodate(finish) >= self.date1:
             return True
         return False
 

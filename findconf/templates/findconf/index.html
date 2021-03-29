@@ -12,91 +12,25 @@
     </div>
 <!--Поля ввода-->
     <div class="input_fields">
-        <form method="post">
+        <form method="post" action="search/">
+            {% csrf_token %}
         <!--Выбор страны проживания-->
             <label for="select_country">Выберите страну вашего проживания</label>
             <select class="search_txt" id="select_country">
                 <option value="">Выберите страну</option>
-                <option value="262">Австралия</option>
-                <option value="15">Австрия</option>
-                <option value="11">Азербайджан</option>
-                <option value="5">Армения</option>
-                <option value="1">Беларусь</option>
-                <option value="370">Белиз</option>
-                <option value="356">Бельгия</option>
-                <option value="10">Болгария</option>
-                <option value="382">Босния и Герцеговина</option>
-                <option value="172">Бразилия</option>
-                <option value="41">Великобритания</option>
-                <option value="192">Венгрия</option>
-                <option value="367">Венесуэла</option>
-                <option value="82">Вьетнам</option>
-                <option value="361">Гватемала </option>
-                <option value="7">Германия</option>
-                <option value="42">Греция</option>
-                <option value="12">Грузия</option>
-                <option value="182">Дания</option>
-                <option value="381">Донецкая Народная Республика</option>
-                <option value="48">Египет</option>
-                <option value="340">Израиль</option>
-                <option value="312">Индия</option>
-                <option value="379">Индонезия</option>
-                <option value="152">Иран</option>
-                <option value="332">Ирландия</option>
-                <option value="112">Испания</option>
-                <option value="47">Италия</option>
-                <option value="4">Казахстан</option>
-                <option value="49">Канада</option>
-                <option value="31">Кипр</option>
-                <option value="364">Китай </option>
-                <option value="365">Корея</option>
-                <option value="375">Куба</option>
-                <option value="353">Кувейт</option>
-                <option value="50">Кыргызстан</option>
-                <option value="9">Латвия</option>
-                <option value="8">Литва</option>
-                <option value="350">Люксембург</option>
-                <option value="362">Македония</option>
-                <option value="213">Малайзия</option>
-                <option value="371">Мексика</option>
-                <option value="51">Молдова</option>
-                <option value="377">Монако</option>
-                <option value="37">Монголия</option>
-                <option value="272">Нидерланды</option>
-                <option value="53">Норвегия</option>
-                <option value="282">ОАЭ</option>
-                <option value="6">Польша</option>
-                <option value="352">Португалия</option>
-                <option value="243">Пуэрто-Рико</option>
-                <option value="52">Республика Абхазия</option>
-                <option value="2">Россия</option>
-                <option value="384">Россия, Беларусь</option>
-                <option value="385">Россия, Беларусь</option>
-                <option value="34">Румыния</option>
-                <option value="359">Сербия</option>
-                <option value="202">Сингапур</option>
-                <option value="102">Словакия</option>
-                <option value="383">Словения</option>
-                <option value="142">США</option>
-                <option value="351">Таджикистан</option>
-                <option value="369">Таиланд</option>
-                <option value="223">Тунис</option>
-                <option value="73">Туркменистан</option>
-                <option value="212">Турция</option>
-                <option value="322">Уганда</option>
-                <option value="20">Узбекистан</option>
-                <option value="3">Украина</option>
-                <option value="46">Финляндия</option>
-                <option value="44">Франция</option>
-                <option value="354">Хорватия</option>
-                <option value="357">Черногория</option>
-                <option value="16">Чехия</option>
-                <option value="366">Швейцария</option>
-                <option value="63">Швеция</option>
-                <option value="23">Эстония</option>
-                <option value="372">ЮАР</option>
-                <option value="252">Ямайка</option>
-                <option value="33">Япония</option>
+                <option value="1">Азербайджан</option>
+                <option value="2">Армения</option>
+                <option value="3">Беларусь</option>
+                <option value="4">Грузия</option>
+                <option value="5">Донецкая Народная Республика</option>
+                <option value="6">Казахстан</option>
+                <option value="7">Литва</option>
+                <option value="8">Молдова</option>
+                <option value="9">Польша</option>
+                <option value="10">Россия</option>
+                <option value="11">Сербия</option>
+                <option value="12">Узбекистан</option>
+                <option value="13">Украина</option>
                 </select>
             <br>
         <!--Выбор города проживания-->
@@ -196,24 +130,11 @@
             <label for="date_finish">До</label>
             <input class="search_txt" type="date" id="date_finish" value="" placeholder="">
             <br>
-            <button onclick="ClickFunction()" class="button_search">Поиск</button>
+            <button class="button_search">Поиск</button>
         </form>
     </div>
 
-<script>
-    function ClickFunction() {
-        let cntry = document.getElementById("select_country").value;
-        let city = document.getElementById("select_city").value;
-        let theme = document.getElementById("select_theme").value;
-        let keywords = document.getElementById("keywords").value;
-        let priceless = document.getElementById("price_low").value;
-        let pricemore = document.getElementById("price_up"). value;
-        let s_date = document.getElementById("date_start").value;
-        let f_date = document.getElementById("date_finish").value;
-        //alert(cntry+" "+ city + " " + theme + " " + keywords + " " + priceless+ " "+pricemore + " " + s_date + " "+ f_date);
-        window.location.href = 'http://127.0.0.1:8000/search';
-        //return cntry,city,theme,keywords,priceless, pricemore, s_date, f_date;
-}
+
 
 
 </script>

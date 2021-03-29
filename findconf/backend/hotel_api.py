@@ -67,6 +67,7 @@ class hotel_api:
     def get_res(self):
         return self.res
 
+
     def __table_p(self):
         a = hotel_info(city=self.city, date_start=self.start_date, date_finish=self.finish_date,
                        price=self.res)

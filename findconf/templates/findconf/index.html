@@ -201,19 +201,21 @@
     </div>
 
 <script>
-function ClickFunction() {
-
-    let cntry = document.getElementById("select_country").value;
-    let city = document.getElementById("select_city").value;
-    let theme = document.getElementById("select_theme").value;
-    let keywords = document.getElementById("keywords").value;
-    let priceless = document.getElementById("price_low").value;
-    let pricemore = document.getElementById("price_up"). value;
-    let s_date = document.getElementById("date_start").value;
-    let f_date = document.getElementById("date_finish").value;
-    alert(cntry+" "+ city + " " + theme + " " + keywords + " " + priceless+ " "+pricemore + " " + s_date + " "+ f_date);
-    return cntry,city,theme,keywords,priceless, pricemore, s_date, f_date;
+    function ClickFunction() {
+        let cntry = document.getElementById("select_country").value;
+        let city = document.getElementById("select_city").value;
+        let theme = document.getElementById("select_theme").value;
+        let keywords = document.getElementById("keywords").value;
+        let priceless = document.getElementById("price_low").value;
+        let pricemore = document.getElementById("price_up"). value;
+        let s_date = document.getElementById("date_start").value;
+        let f_date = document.getElementById("date_finish").value;
+        //alert(cntry+" "+ city + " " + theme + " " + keywords + " " + priceless+ " "+pricemore + " " + s_date + " "+ f_date);
+        window.location.href = 'http://127.0.0.1:8000/search';
+        //return cntry,city,theme,keywords,priceless, pricemore, s_date, f_date;
 }
+
+
 </script>
 
 </body>

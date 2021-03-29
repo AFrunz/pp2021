@@ -33,20 +33,17 @@ def get_res():
     home_city = "Москва"
     data_p_s = "1апреля2021г"
     data_p_e = "29июня2021г"
-    money_max = 1000
+    money_max = 100000
 
     # 2. Поиск всех конференций по тематике
     t1 = time.time()
-    print(1)
     s_conf = conf_pars.Conf_parser('country', 'city', "31марта2021г", "31июня2022г", 'keywords', 'theme')
     s_conf = s_conf.getRes()
     # Получаем код родного города
     home_city_code = get_city_code.get_IATA_code(home_city)
     home_city_code = home_city_code.get_res()
-    print(time.time() - t1)
-    # 3.2 Для каждой конференции считается цена на билет на самолет/проживание
+    # 3.2 Для каждой конференции считается цена билета на самолет/проживание
     t1 = time.time()
-    print(2)
     for j in s_conf:
         # Получаем код города
         city_code = get_city_code.get_IATA_code(j["city"])
@@ -57,11 +54,12 @@ def get_res():
             j["plane"] = -1
             j["hotel"] = -1
         elif j["code"] == home_city_code:
-            j["train"] = 0
-            j["plane"] = 0
-            j["hotel"] = 0
+            j["train"] = -2
+            j["plane"] = -2
+            j["hotel"] = -2
         else:
             tab = table_avia_sr(home_city_code, j["code"], strtodate(j["date_start"]), strtodate(j["date_end"]))
+            print(tab)
             if tab == -1:
                 plane_price = fly_price_info.fly_price_info(home_city_code, j["code"], j["date_start"], j["date_end"])
                 j["plane"] = plane_price.get_res()
@@ -76,8 +74,6 @@ def get_res():
             if not price_filtr(j["hotel"], money_max):
                 s_conf.remove(j)
                 continue
-    print(time.time() - t1)
-    print(3)
     t1 = time.time()
     for i in s_conf:
         if i["train"] == -1 or i["code"] == home_city_code:
@@ -90,8 +86,7 @@ def get_res():
             train = train_pars.train_parse(home_city, i["city"], i["date_start"], i["date_end"])
             train_price = train.get_aver()
             i["train"] = train_price
-    print(time.time() - t1)
-
+    return s_conf
 
 def table_avia_sr(city_iz, city_v, date_start, date_finish):
     a = avia_info.objects.filter(city_iz=city_iz, city_v=city_v, date_start=date_start,
@@ -131,3 +126,4 @@ def table_find_sr(city_iz, city_v, date_iz, date_v):
 #         d["СВ"] = i.price_3
 #         mas.append(d)
 #     return d
+

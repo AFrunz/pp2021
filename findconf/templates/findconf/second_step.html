@@ -200,65 +200,74 @@
         </form>
     </div>
 <!-- Результаты: Конференция и цена проезда и проживания-->
-    <div class="conf_results">
-        <!-- Блок с конференцией-->
-        <div class="conf_block">
-            <div class="ul1">
-                <div class="params1">
-                    <div class="conf_head">
-                        Название конференции
-                    </div>
-                </div>
-                <div class="params1">
-                    <div class="price">
-                        Страна и город проведения
-                    </div>
-                </div>
-                <div class="params1">
-                    Дата проведения
-                </div>
-            </div>
-            <div class="ul2">
-                <input class="check" type="checkbox">
-                <div class="params">
-                    <div class="price">
-                        <div class="train_price">
-                            <div class="fields_name">Поезд</div>
-                            <ul>
-                                <li>Название 1:     цена 1</li>
-                                <li>Название 2:     цена 2</li>
-                                <li>Название 3:     цена 3</li>
-                            </ul>
+    <form method="post" name="form2">
+    {% csrf_token %}
+        <div class="conf_results">
+            <!-- Блок с конференцией-->
+            {% for i in conf %}
+            <div class="conf_block">
+                <div class="ul1">
+                    <div class="params1">
+                        <div class="conf_head">
+                            {{ i.Name }}
                         </div>
                     </div>
-                </div>
-                <div class="params">
-                    <div class="price">
-                        <div class="train_price">
-                            <div class="fields_name">Самолет</div>
-                            <div>Цена</div>
+                    <div class="params1">
+                        <div class="price">
+                            {{ i.Country }}, {{ i.city }}
                         </div>
                     </div>
-                </div>
-                <div class="params">
-                    <div class="hotel_price">
-                        <div class="field-name">Отель</div>
-                        <div>Цена на отель</div>
+                    <div class="params1">
+                        {{ i.date_start }} - {{ i.date_end }}
                     </div>
                 </div>
-                <div class="params">
-                   <div class="field-name">Примерная стоимость:   </div>
+                {% if i.train != -2 %}
+                <div class="ul2">
+                    <input class="check" type="checkbox">
+                    <div class="params">
+                        <div class="price">
+                            <div class="train_price">
+                                <div class="fields_name">Поезд</div>
+                                <ul>
+                                    <li>Плацкарт:     {{ i.train.Плацкарт }}</li>
+                                    <li>Купе:     {{ i.train.Купе }}</li>
+                                    <li>СВ:     {{ i.train.СВ }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="params">
+                        <div class="price">
+                            <div class="train_price">
+                                <div class="fields_name">Самолет</div>
+                                <div>{{ i.plane }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="params">
+                        <div class="hotel_price">
+                            <div class="field-name">Отель</div>
+                            <div>{{ i.hotel }}</div>
+                        </div>
+                    </div>
+                    <div class="params">
+                       <div class="field-name">Примерная стоимость:   </div>
+                    </div>
                 </div>
+                {% else %}
+                    <br>
+                    <span class="error">Вы проживаете в данном городе</span>
+                    <br>
+                {% endif %}
             </div>
-
-
-
+            {% endfor %}
         </div>
-    </div>
+        <div class="search">
+            <button type="submit" class="button_search_transport">Посмотреть варианты транспорта</button>
+        </div>
+    </form>
 <!-- Кнопка получения рез-в-->
-    <div class="search">
-        <button class="button_search_transport">Посмотреть варианты транспорта</button>
-    </div>
+
 
 
 

@@ -92,6 +92,12 @@ body {
     zoom: 2.5;
 }
 
+.error {
+    margin: 30px;
+    text-align: center;
+    font: 48px Calibri;
+}
+
 .button_search_transport {
     width: 350px;
     height: 40px;

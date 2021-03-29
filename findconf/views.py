@@ -10,11 +10,13 @@ def index(request):
 
 
 def second_step(request):
-    get_res()
+    conf = get_res()
+    if request.method == "GET":
+        print(request.GET.get("ad"))
     if request.method == "POST":
         country = request.POST.get("country")
         print(country)
-    return render(request, 'findconf/second_step.html')
+    return render(request, 'findconf/second_step.html', {"conf": conf})
 
 
 def third_step(request):

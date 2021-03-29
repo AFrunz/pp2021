@@ -240,14 +240,22 @@
                         <div class="price">
                             <div class="train_price">
                                 <div class="fields_name">Самолет</div>
-                                <div>{{ i.plane }}</div>
+                                {% if i.plane > 0 %}
+                                    <div>{{ i.plane }}</div>
+                                {% else %}
+                                    <div>Данные не найдены</div>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
                     <div class="params">
                         <div class="hotel_price">
                             <div class="field-name">Отель</div>
+                            {% if i.hotel > 0 %}
                             <div>{{ i.hotel }}</div>
+                            {% else %}
+                                <div>Данные не найдены</div>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="params">
@@ -256,7 +264,7 @@
                 </div>
                 {% else %}
                     <br>
-                    <span class="error">Вы проживаете в данном городе</span>
+                    <div class="error">Вы проживаете в данном городе</div>
                     <br>
                 {% endif %}
             </div>

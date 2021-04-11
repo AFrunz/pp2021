@@ -8,6 +8,8 @@ from findconf.models import hotel_info
 
 
 def strtodate(date):
+    if date == '':
+        return -1
     day = ''
     month = ''
     d = {"янв": "01", "фев": "02", "мар": "03", "апр": "04", "мая": "05", "июн": "06",

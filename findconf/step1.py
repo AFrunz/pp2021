@@ -22,26 +22,36 @@ from findconf.backend.hotel_api import strtodate
 
 # True - входит в бюджет, False - нет
 def price_filtr(hotel_price, budget):
+    if budget == -1:
+        return True
+    else:
+        budget = int(budget)
     return hotel_price < budget
 
 
 # 1. Пользователь выбирает тематику
 # Допустим пользователь выбрал тематикой математику. Также допустим, что человек живет в Москве.
 def get_res(Country, city, theme, keywords, money_ot, money_do, data_p_s, data_p_e):
+    # 1. Анализ въодных данных
     t1 = time.time()
-    home_city = "Москва"
-    money_max = 100000
-
+    city = get_city(city)
+    if money_ot == '':
+        money_ot = -1
+    if money_do == '':
+        money_do = -1
+    if data_p_e == '':
+        data_p_s = -1
+    if data_p_e == '':
+        data_p_e = -1
     # 2. Поиск всех конференций по тематике
     t1 = time.time()
     s_conf = conf_pars.Conf_parser(data_p_s, data_p_e, keywords, theme)
     s_conf = s_conf.getRes()
     # Получаем код родного города
-    home_city_code = get_city_code.get_IATA_code(home_city)
+    home_city_code = get_city_code.get_IATA_code(city)
     home_city_code = home_city_code.get_res()
     # 3.2 Для каждой конференции считается цена билета на самолет/проживание
     t1 = time.time()
-    print(11111111111111)
     for j in s_conf:
         # Получаем код города
         city_code = get_city_code.get_IATA_code(j["city"])
@@ -57,7 +67,6 @@ def get_res(Country, city, theme, keywords, money_ot, money_do, data_p_s, data_p
             j["hotel"] = -2
         else:
             tab = table_avia_sr(home_city_code, j["code"], strtodate(j["date_start"]), strtodate(j["date_end"]))
-            print(tab)
             if tab == -1:
                 plane_price = fly_price_info.fly_price_info(home_city_code, j["code"], j["date_start"], j["date_end"])
                 j["plane"] = plane_price.get_res()
@@ -69,19 +78,19 @@ def get_res(Country, city, theme, keywords, money_ot, money_do, data_p_s, data_p
                 j["hotel"] = hotel_price.get_res()
             else:
                 j["hotel"] = tab
-            if not price_filtr(j["hotel"], 1000):
+            if not price_filtr(j["hotel"], money_do):
                 s_conf.remove(j)
                 continue
     t1 = time.time()
     for i in s_conf:
         if i["train"] == -1 or i["code"] == home_city_code:
             continue
-        info = table_find_sr(train_pars.transliteration2(home_city), train_pars.transliteration2(i["city"]), strtodate(i["date_start"]),
-                             strtodate(i["date_end"]))
+        info = table_find_sr(train_pars.transliteration2(city), train_pars.transliteration2(i["city"]),
+                             strtodate(i["date_start"]), strtodate(i["date_end"]))
         if info != 0:
             i["train"] = info
         else:
-            train = train_pars.train_parse(home_city, i["city"], i["date_start"], i["date_end"])
+            train = train_pars.train_parse(city, i["city"], i["date_start"], i["date_end"])
             train_price = train.get_aver()
             i["train"] = train_price
     return s_conf
@@ -111,6 +120,14 @@ def table_find_sr(city_iz, city_v, date_iz, date_v):
         d["СВ"] = i.price_3
         return d
     return 0
+
+
+def get_city(city_code):
+    a = city_info.objects.filter(city_id=int(city_code))
+    print(a[0])
+    return a[0].city_name
+
+
 
 # def table_find(city_iz, city_v, date_iz, date_v):
 #     """Поиск по базе данных о поездах"""

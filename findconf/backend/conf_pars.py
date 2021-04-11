@@ -37,13 +37,14 @@ class Conf_parser:
 
     def __linkUpdate(self):
         """Модификация ссылки с учетом вводных данных"""
+        keywords = ''
         if self.keywords is None:
             self.keywords = ''
         if self.theme is None:
             self.theme = ''
         url_f = "https://konferencii.ru/search?advance%5Bkeyword%5D="
         url_s = "&advance%5BsearchOr%5D=1&advance%5BstartDate%5D=&advance_startDate=&advance%5BendDate%5D=&advance_endDate=&advance%5Bbackup%5D=1&advance%5BlastRequestDate1%5D=&advance_lastRequestDate1=&advance%5BlastRequestDate2%5D=&advance_lastRequestDate2=&advance%5BcountryId%5D=&advance%5BcityId%5D=&advance%5BeventId%5D=&advance%5BtopicId%5D%5B%5D="
-        url_t = "&advance%5BparticalId%5D=&advance%5BorderBy%5D=startDate&advance%5Blimit%5D=100&submit=Искать"
+        url_t = "&advance%5BparticalId%5D=&advance%5BorderBy%5D=startDate&advance%5Blimit%5D=10&submit=Искать"
         znaki = [",", ";", "!", "?", ":"]
         for i in znaki:
             keywords = self.keywords.replace(i, " ")
@@ -63,8 +64,10 @@ class Conf_parser:
 
     def __check(self, start, finish):
         """Проверка на дату"""
-        if self.date2 is None and self.date1 is None:
+        if self.date2 == -1 and self.date1 == -1:
             return True
+        elif self.date1 == -1:
+            return self.date2 >= strtodate(start) and self.date2 >= strtodate(finish)
         if self.date2 >= strtodate(start) >= self.date1 and self.date2 >= \
                 strtodate(finish) >= self.date1:
             return True

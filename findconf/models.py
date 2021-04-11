@@ -56,3 +56,5 @@ class avia_info(models.Model):
 
     def __str__(self):
         return self.city_iz + '---' + self.city_v
+
+

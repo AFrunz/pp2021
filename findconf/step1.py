@@ -29,7 +29,6 @@ def price_filtr(hotel_price, budget):
 # Допустим пользователь выбрал тематикой математику. Также допустим, что человек живет в Москве.
 def get_res(Country, city, theme, keywords, money_ot, money_do, data_p_s, data_p_e):
     t1 = time.time()
-    tema = "Математика"
     home_city = "Москва"
     money_max = 100000
 
@@ -42,6 +41,7 @@ def get_res(Country, city, theme, keywords, money_ot, money_do, data_p_s, data_p
     home_city_code = home_city_code.get_res()
     # 3.2 Для каждой конференции считается цена билета на самолет/проживание
     t1 = time.time()
+    print(11111111111111)
     for j in s_conf:
         # Получаем код города
         city_code = get_city_code.get_IATA_code(j["city"])
@@ -69,7 +69,7 @@ def get_res(Country, city, theme, keywords, money_ot, money_do, data_p_s, data_p
                 j["hotel"] = hotel_price.get_res()
             else:
                 j["hotel"] = tab
-            if not price_filtr(j["hotel"], int(money_do)):
+            if not price_filtr(j["hotel"], 1000):
                 s_conf.remove(j)
                 continue
     t1 = time.time()

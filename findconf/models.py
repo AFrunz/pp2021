@@ -56,3 +56,15 @@ class avia_info(models.Model):
 
     def __str__(self):
         return self.city_iz + '---' + self.city_v
+
+
+class country_info(models.Model):
+    country_id = models.PositiveIntegerField('ID страны')
+    country_name = models.CharField('Название страны', max_length= 35)
+
+
+class city_info(models.Model):
+    city_id = models.PositiveIntegerField('ID города')
+    city_name = models.CharField('Название города', max_length= 35)
+    city_country_id = models.PositiveIntegerField('ID страны города')
+

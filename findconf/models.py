@@ -68,3 +68,5 @@ class city_info(models.Model):
     city_name = models.CharField('Название города', max_length= 35)
     city_country_id = models.PositiveIntegerField('ID страны города')
 
+
+

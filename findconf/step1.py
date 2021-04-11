@@ -69,7 +69,7 @@ def get_res(Country, city, theme, keywords, money_ot, money_do, data_p_s, data_p
                 j["hotel"] = hotel_price.get_res()
             else:
                 j["hotel"] = tab
-            if not price_filtr(j["hotel"], 10000):
+            if not price_filtr(j["hotel"], int(money_do)):
                 s_conf.remove(j)
                 continue
     t1 = time.time()

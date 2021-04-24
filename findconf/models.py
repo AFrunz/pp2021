@@ -69,4 +69,10 @@ class city_info(models.Model):
     city_country_id = models.PositiveIntegerField('ID страны города')
 
 
+class feedback(models.Model):
+    info = models.TextField()
+
+    def __str__(self):
+        return "Отзыв"
+
 

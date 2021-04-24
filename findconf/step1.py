@@ -31,12 +31,10 @@ def price_filtr(hotel_price, budget):
 
 # 1. Пользователь выбирает тематику
 # Допустим пользователь выбрал тематикой математику. Также допустим, что человек живет в Москве.
-def get_res(Country, city, theme, keywords, money_ot, money_do, data_p_s, data_p_e):
+def get_res(Country, city, theme, keywords, money_do, data_p_s, data_p_e):
     # 1. Анализ въодных данных
     t1 = time.time()
     city = get_city(city)
-    if money_ot == '':
-        money_ot = -1
     if money_do == '':
         money_do = -1
     if data_p_e == '':
@@ -50,6 +48,7 @@ def get_res(Country, city, theme, keywords, money_ot, money_do, data_p_s, data_p
     # Получаем код родного города
     home_city_code = get_city_code.get_IATA_code(city)
     home_city_code = home_city_code.get_res()
+    print(f"1. {time.time() - t1}")
     # 3.2 Для каждой конференции считается цена билета на самолет/проживание
     t1 = time.time()
     for j in s_conf:
@@ -81,6 +80,7 @@ def get_res(Country, city, theme, keywords, money_ot, money_do, data_p_s, data_p
             if not price_filtr(j["hotel"], money_do):
                 s_conf.remove(j)
                 continue
+    print(f"2. {time.time() - t1}")
     t1 = time.time()
     for i in s_conf:
         if i["train"] == -1 or i["code"] == home_city_code:
@@ -93,6 +93,7 @@ def get_res(Country, city, theme, keywords, money_ot, money_do, data_p_s, data_p
             train = train_pars.train_parse(city, i["city"], i["date_start"], i["date_end"])
             train_price = train.get_aver()
             i["train"] = train_price
+    print(f"3. {time.time() - t1}")
     return s_conf
 
 def table_avia_sr(city_iz, city_v, date_start, date_finish):
@@ -124,7 +125,6 @@ def table_find_sr(city_iz, city_v, date_iz, date_v):
 
 def get_city(city_code):
     a = city_info.objects.filter(city_id=int(city_code))
-    print(a[0])
     return a[0].city_name
 
 

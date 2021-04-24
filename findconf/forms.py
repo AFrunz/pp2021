@@ -1,5 +1,10 @@
 # from django import forms
 #
+# class Feedback(forms.Form):
+#     class Meta:
+#
+
+#
 # class IndexForm(forms.Form):
 #     Choise_country = (("Russia", 1,), ("Germany", 2,))
 #     country = forms.CharField(max_length=20, )

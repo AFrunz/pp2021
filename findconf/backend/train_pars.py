@@ -7,7 +7,7 @@
 1) Сделать выгрузку данных в бд (сделано)
 2) Доработать возвращаемое среднее значение, сделать словарь из 5 значений, 3 обычных вагона и 2 сапсана"""
 
-import requests
+import requests, time
 from bs4 import BeautifulSoup as BS
 from findconf.backend.hotel_api import strtodate
 from findconf.models import train_inf, train_sr
@@ -111,10 +111,19 @@ class train_parse:
 
     def __parse(self):
         """Основа парсера"""
+        t1 = time.time()
         self.__linkUpdate()
+        print(f"S1: {time.time() - t1}")
+        t1 = time.time()
         Html = self.__getHTML()
+        print(f"S2: {time.time() - t1}")
+        t1 = time.time()
         self.result = self.__getInf(Html)
+        print(f"S3: {time.time() - t1}")
+        t1 = time.time()
         self.aver = self.__get_average()
+        print(f"S3: {time.time() - t1}")
+        t1 = time.time()
 
     def __getHTML(self):
         """Получение HTML кода"""
@@ -126,6 +135,7 @@ class train_parse:
         new_html = BS(html.text, "html.parser")
         all = new_html.find_all("div", class_="wg-train-container")
         all_data = []
+        t1 = time.time()
         for i in all:
             l = train_dict()
             i = i.find("div", class_="wg-block__inner wg-block__inner_no-padding-top")
@@ -171,6 +181,7 @@ class train_parse:
                     ' ', '')
             self.__push_table(l)
             all_data.append(l)
+        print(f"T: {time.time() - t1}")
         return all_data
 
 

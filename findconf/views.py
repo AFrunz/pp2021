@@ -2,7 +2,10 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .step1 import *
 from .backend.train_pars import train_parse
+from .models import feedback, country_info, city_info
 import json
+
+
 # from .forms import IndexForm
 
 
@@ -19,12 +22,11 @@ def second_step(request):
         d["city"] = request.GET.get("select_city")
         d["theme"] = request.GET.get("select_theme")
         d["keywords"] = request.GET.get("keywords")
-        d["money_ot"] = request.GET.get("price_low")
-        d["money_do"] = request.GET.get("price_up")
+        d["money_do"] = request.GET.get("budget")
         d["date_s"] = request.GET.get("date_start")
         d["date_f"] = request.GET.get("date_finish")
         print(d)
-        conf = get_res(d["country"], d["city"], d["theme"], d["keywords"], d["money_ot"], d["money_do"],
+        conf = get_res(d["country"], d["city"], d["theme"], d["keywords"], d["money_do"],
                        d["date_s"], d["date_f"])
         return render(request, 'findconf/second_step.html', context={"conf": conf})
     # {"conf": conf}
@@ -44,3 +46,29 @@ def zero_step(request):
     print(request.POST.get("select_country"))
     return redirect(second_step)
 
+
+def Feedback(request):
+    if request.method == "POST":
+        s = request.POST["Feedbackinput"]
+        print(s, type(s))
+        base = feedback(info=s)
+        base.save()
+        return redirect(index)
+    else:
+        return render(request, "findconf/FeedBack.html")
+
+
+def About_us(request):
+    return render(request, "findconf/about_us.html")
+
+
+def Get_city_(request):
+    s = request.GET["Id"]
+    if s == '':
+        return HttpResponse('')
+    base = city_info.objects.filter(city_country_id=s)
+    l = []
+    for i in base:
+        l.append(i.city_id)
+        print(i.city_name)
+    return HttpResponse(str(l))

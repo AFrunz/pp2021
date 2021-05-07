@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -5,11 +6,13 @@
 	<title>Подбор конференции</title>
     <link rel="icon" href="../../static/favicon.ico" type="image/x-icon">
 	<meta name="viewport" content ="width=device-width, initial-scale=1">
-	<link rel="stylesheet" type="text/css" href="../../static/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css'%}">
+	<link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
 </head>
-<body>
+<body style="background-color: #eff1f4">
+{#content-box radial-gradient(whitesmoke, skyblue)#}
 	<nav class = "navbar navbar-expand-lg navbar-light bg-light">
 		<div class = "container-fluid">
 			<a class="navbar-brand">Найди свою конференцию!</a>
@@ -32,7 +35,7 @@
 		</div>
 	</nav>
 	<div class = "container">
-		<form role = "form" method = "get" name="form1" action="search/">
+		<form role = "form" method = "get" name="form1" id="form1" action="sear/">
             {% csrf_token %}
 		<div class = "mx-auto">
 			<p class = "text-block">
@@ -122,28 +125,263 @@
 				<div class = "col text-center">
 					<label for="select_country">Выберите страну вашего проживания</label>
 				</div>
-				<select name="select_country" class = "form-control">
+				<select name="select_country" class = "form-control" id="country" required onchange="newCity()">
+                    <option value="" selected hidden>Выберите страну</option>
 					<option value="1">Азербайджан</option>
 					<option value="2">Армения</option>
 					<option value="3">Беларусь</option>
 					<option value="4">Грузия</option>
-					<option value="6">Казахстан</option>
-					<option value="7">Литва</option>
-					<option value="8">Молдова</option>
-					<option value="9">Польша</option>
-					<option value="10">Россия</option>
-					<option value="11">Сербия</option>
-					<option value="12">Узбекистан</option>
-					<option value="13">Украина</option>
+					<option value="5">Казахстан</option>
+					<option value="6">Литва</option>
+					<option value="7">Молдова</option>
+					<option value="8">Польша</option>
+					<option value="9">Россия</option>
+					<option value="10">Сербия</option>
+					<option value="11">Узбекистан</option>
+					<option value="12">Украина</option>
 				</select>
 			</p>
 			<p>
 				<div class = "col text-center">
 					<label for="select_city">Выберите город вашего проживания</label>
 				</div>
-				<select name="select_city" class= "form-control">
-					<option value="266">Москва</option>
-					<option value="277">Не Москва(Москва)</option>
+				<select name="select_city" required class= "form-control" id="city">
+                    <option value="">Выберите город</option>
+                    <option value="1" hidden>Агсу</option>
+                    <option value="2" hidden>Баку</option>
+                    <option value="3" hidden>Гянджа</option>
+                    <option value="4" hidden>Гюмри</option>
+                    <option value="5" hidden>Ереван</option>
+                    <option value="6" hidden>Брест</option>
+                    <option value="7" hidden>Витебск</option>
+                    <option value="8" hidden>Гомель</option>
+                    <option value="9" hidden>Гродно</option>
+                    <option value="10" hidden>Минск</option>
+                    <option value="11" hidden>Мир</option>
+                    <option value="12" hidden>Могилев</option>
+                    <option value="13" hidden>Пинск</option>
+                    <option value="14" hidden>Батуми</option>
+                    <option value="15" hidden>Кутаиси</option>
+                    <option value="16" hidden>Тбилиси</option>
+                    <option value="17" hidden>Актау</option>
+                    <option value="18" hidden>Актобе</option>
+                    <option value="19" hidden>Алматы</option>
+                    <option value="20" hidden>Жезказган</option>
+                    <option value="21" hidden>Караганда</option>
+                    <option value="22" hidden>Кокшетау</option>
+                    <option value="23" hidden>Костанай</option>
+                    <option value="24" hidden>Нур-Султан</option>
+                    <option value="25" hidden>Павлодар</option>
+                    <option value="26" hidden>Петропавловск</option>
+                    <option value="27" hidden>Семей</option>
+                    <option value="28" hidden>Тараз</option>
+                    <option value="29" hidden>Уральск</option>
+                    <option value="30" hidden>Усть-Каменогорск</option>
+                    <option value="31" hidden>Шимкент</option>
+                    <option value="32" hidden>Вильнюс</option>
+                    <option value="33" hidden>Каунас</option>
+                    <option value="34" hidden>Кишинёв</option>
+                    <option value="35" hidden>Szczecin</option>
+                    <option value="36" hidden>Быдгощ</option>
+                    <option value="37" hidden>Быдгощч</option>
+                    <option value="38" hidden>Варшава</option>
+                    <option value="39" hidden>Вроцлав</option>
+                    <option value="40" hidden>Гданьск</option>
+                    <option value="41" hidden>Жешув</option>
+                    <option value="42" hidden>Катовице</option>
+                    <option value="43" hidden>Краков</option>
+                    <option value="44" hidden>Краков</option>
+                    <option value="45" hidden>Лодзь</option>
+                    <option value="46" hidden>Любнин</option>
+                    <option value="47" hidden>Ольштын</option>
+                    <option value="48" hidden>Познань</option>
+                    <option value="49" hidden>Абакан</option>
+                    <option value="50" hidden>Александров</option>
+                    <option value="51" hidden>Алтайск</option>
+                    <option value="52" hidden>Алушта</option>
+                    <option value="53" hidden>Анадырь</option>
+                    <option value="54" hidden>Анапа</option>
+                    <option value="55" hidden>Анжеро-Судженск</option>
+                    <option value="56" hidden>Апатиты</option>
+                    <option value="57" hidden>Челябинск</option>
+                    <option value="58" hidden>Архангельск</option>
+                    <option value="59" hidden>Астрахань</option>
+                    <option value="60" hidden>Барнаул</option>
+                    <option value="61" hidden>Барнаул</option>
+                    <option value="62" hidden>Белгород</option>
+                    <option value="63" hidden>Благовещенск</option>
+                    <option value="64" hidden>Болгар</option>
+                    <option value="65" hidden>Борок</option>
+                    <option value="66" hidden>Братск</option>
+                    <option value="67" hidden>Брыкин Бор</option>
+                    <option value="68" hidden>Брянск</option>
+                    <option value="69" hidden>Бугульма</option>
+                    <option value="70" hidden>Великие Луки</option>
+                    <option value="71" hidden>Великий Новгород</option>
+                    <option value="72" hidden>Великий Устюг</option>
+                    <option value="73" hidden>Вилюйск</option>
+                    <option value="74" hidden>Владивосток</option>
+                    <option value="75" hidden>Владикавказ</option>
+                    <option value="76" hidden>Волгоград</option>
+                    <option value="77" hidden>Вологда</option>
+                    <option value="78" hidden>Воркута</option>
+                    <option value="79" hidden>Воронеж</option>
+                    <option value="80" hidden>Вятские Поляны</option>
+                    <option value="81" hidden>Гаврилов Посад</option>
+                    <option value="82" hidden>Геленджик</option>
+                    <option value="83" hidden>Горно-Алтайск</option>
+                    <option value="84" hidden>Грозный</option>
+                    <option value="85" hidden>Екатеринбург</option>
+                    <option value="86" hidden>Елец</option>
+                    <option value="87" hidden>Иваново</option>
+                    <option value="88" hidden>Ижевск</option>
+                    <option value="89" hidden>Инза</option>
+                    <option value="90" hidden>Иркутск</option>
+                    <option value="91" hidden>Йошкар-Ола</option>
+                    <option value="92" hidden>Казань</option>
+                    <option value="93" hidden>Калининград</option>
+                    <option value="94" hidden>Калуга</option>
+                    <option value="95" hidden>Камень-на-Оби</option>
+                    <option value="96" hidden>Алтайский край</option>
+                    <option value="97" hidden>Канск</option>
+                    <option value="98" hidden>Красноярский край</option>
+                    <option value="99" hidden>Кемерово</option>
+                    <option value="100" hidden>Киров</option>
+                    <option value="101" hidden>Кировск</option>
+                    <option value="102" hidden>Кисловодск</option>
+                    <option value="103" hidden>Клин</option>
+                    <option value="104" hidden>Когалым</option>
+                    <option value="105" hidden>Комсомольск-на-Амуре</option>
+                    <option value="106" hidden>Королев</option>
+                    <option value="107" hidden>Кострома</option>
+                    <option value="108" hidden>Котлас</option>
+                    <option value="109" hidden>Красная Поляна</option>
+                    <option value="110" hidden>Краснодарский край</option>
+                    <option value="111" hidden>Краснодар</option>
+                    <option value="112" hidden>Красноярск</option>
+                    <option value="113" hidden>Крым</option>
+                    <option value="114" hidden>Курган</option>
+                    <option value="115" hidden>Курск</option>
+                    <option value="116" hidden>Кызыл</option>
+                    <option value="117" hidden>Липецк</option>
+                    <option value="118" hidden>Луга</option>
+                    <option value="119" hidden>Магадан</option>
+                    <option value="120" hidden>Магас</option>
+                    <option value="121" hidden>Магнитогорск</option>
+                    <option value="122" hidden>Мариинский Посад</option>
+                    <option value="123" hidden>Махачкала</option>
+                    <option value="124" hidden>Мирный</option>
+                    <option value="125" hidden>Москва</option>
+                    <option value="126" hidden>Москва-Черногорск</option>
+                    <option value="127" hidden>Мурманск</option>
+                    <option value="128" hidden>Набережные Челны</option>
+                    <option value="129" hidden>Надым</option>
+                    <option value="130" hidden>Назрань</option>
+                    <option value="131" hidden>Нальчик</option>
+                    <option value="132" hidden>Нарьян-Мар</option>
+                    <option value="133" hidden>Нерюнгри</option>
+                    <option value="134" hidden>Нижневартовск</option>
+                    <option value="135" hidden>Нижнекамск</option>
+                    <option value="136" hidden>Нижний Архыз</option>
+                    <option value="137" hidden>Нижний Новгород</option>
+                    <option value="138" hidden>Нижний Тагил</option>
+                    <option value="139" hidden>Новокузнецк</option>
+                    <option value="140" hidden>Новосибирск</option>
+                    <option value="141" hidden>Новый Уренгой</option>
+                    <option value="142" hidden>Ноябрьск</option>
+                    <option value="143" hidden>Омск</option>
+                    <option value="144" hidden>Орел</option>
+                    <option value="145" hidden>Оренбург</option>
+                    <option value="146" hidden>Орск</option>
+                    <option value="147" hidden>Камчатский край</option>
+                    <option value="148" hidden>Пенза</option>
+                    <option value="149" hidden>Пермь</option>
+                    <option value="150" hidden>Петрозаводск</option>
+                    <option value="151" hidden>Петропавловск-Камчатский</option>
+                    <option value="152" hidden>Псков</option>
+                    <option value="153" hidden>Пушкинские горы</option>
+                    <option value="154" hidden>Пыть-Ях</option>
+                    <option value="155" hidden>Пятигорск</option>
+                    <option value="156" hidden>Ростов-на-Дону</option>
+                    <option value="157" hidden>Салехард</option>
+                    <option value="158" hidden>Самара</option>
+                    <option value="159" hidden>Санкт-Петербург</option>
+                    <option value="160" hidden>Саранск</option>
+                    <option value="161" hidden>Саратов</option>
+                    <option value="162" hidden>Светлый Яр</option>
+                    <option value="163" hidden>Севастополь</option>
+                    <option value="164" hidden>Сергиев Посад</option>
+                    <option value="165" hidden>Сибай</option>
+                    <option value="166" hidden>Симферополь</option>
+                    <option value="167" hidden>Славянск-на-Кубани</option>
+                    <option value="168" hidden>Соловки</option>
+                    <option value="169" hidden>Сочи</option>
+                    <option value="170" hidden>Ставрополь</option>
+                    <option value="171" hidden>Старый Оскол</option>
+                    <option value="172" hidden>Сургут</option>
+                    <option value="173" hidden>Сыктывкар</option>
+                    <option value="174" hidden>Таганрог</option>
+                    <option value="175" hidden>Тамбов</option>
+                    <option value="176" hidden>Тара</option>
+                    <option value="177" hidden>Томск</option>
+                    <option value="178" hidden>Тула</option>
+                    <option value="179" hidden>Тюмень</option>
+                    <option value="180" hidden>Улан-Удэ</option>
+                    <option value="181" hidden>Ульяновск</option>
+                    <option value="182" hidden>Уфа</option>
+                    <option value="183" hidden>Ухта</option>
+                    <option value="184" hidden>Феодосия</option>
+                    <option value="185" hidden>Хабаровск</option>
+                    <option value="186" hidden>Ханты-Мансийск</option>
+                    <option value="187" hidden>Чебоксары</option>
+                    <option value="188" hidden>Челябинск</option>
+                    <option value="189" hidden>Череповец</option>
+                    <option value="190" hidden>Чита</option>
+                    <option value="191" hidden>Элиста</option>
+                    <option value="192" hidden>Южно-Сахалинск</option>
+                    <option value="193" hidden>Юрга</option>
+                    <option value="194" hidden>Якутск</option>
+                    <option value="195" hidden>Ялта</option>
+                    <option value="196" hidden>Ярославль</option>
+                    <option value="197" hidden>Belgrade</option>
+                    <option value="198" hidden>Ниш</option>
+                    <option value="199" hidden>Нови Сад</option>
+                    <option value="200" hidden>Андижан</option>
+                    <option value="201" hidden>Бухара</option>
+                    <option value="202" hidden>Джизак</option>
+                    <option value="203" hidden>Наманган</option>
+                    <option value="204" hidden>Самарканд</option>
+                    <option value="205" hidden>Ташкент</option>
+                    <option value="206" hidden>Термез</option>
+                    <option value="207" hidden>Фергана</option>
+                    <option value="208" hidden>Алушта</option>
+                    <option value="209" hidden>Аскания-Нова</option>
+                    <option value="210" hidden>Белая Церковь</option>
+                    <option value="211" hidden>Берегово</option>
+                    <option value="212" hidden>Винница</option>
+                    <option value="213" hidden>Голая Пристань</option>
+                    <option value="214" hidden>Днепропетровск</option>
+                    <option value="215" hidden>Евпатрия</option>
+                    <option value="216" hidden>Евратория</option>
+                    <option value="217" hidden>Запорожье</option>
+                    <option value="218" hidden>Ивано-Франковск</option>
+                    <option value="219" hidden>Киев</option>
+                    <option value="220" hidden>Кривой Рог</option>
+                    <option value="221" hidden>Львов</option>
+                    <option value="222" hidden>Николаев</option>
+                    <option value="223" hidden>Новый Свет</option>
+                    <option value="224" hidden>Одесса</option>
+                    <option value="225" hidden>Полтава</option>
+                    <option value="226" hidden>Саки</option>
+                    <option value="227" hidden>Севастополь</option>
+                    <option value="228" hidden>Симферополь</option>
+                    <option value="229" hidden>Судак</option>
+                    <option value="230" hidden>Ужгород</option>
+                    <option value="231" hidden>Умань</option>
+                    <option value="232" hidden>Феодосия</option>
+                    <option value="233" hidden>Харьков</option>
+                    <option value="234" hidden>Херсон</option>
+                    <option value="235" hidden>Ялта</option>
 				</select>
 			</p>
 			<p>
@@ -172,46 +410,234 @@
 
 			<p>
 				<div class = "col text-center">
-					<button type = "submit" class = "btn btn-success">Найти!</button>
+					<button type="submit" class = "btn btn-success">Найти!</button>
 				</div>
 			</p>
 		</form>
 	</div>
-   <form method="post" name="form2">
+
+<div id="hidInfo">
+    <script src="//tp.media/content?promo_id=4072&shmarker=313055&campaign_id=135&locale=ru&powered_by=true&plain=false&border_radius=5&color_border=%23358ed0&color_button=%23C9CADE&color_icons=%23fbb718&color_button_text=%23ffffff" charset="utf-8"></script>
+
+                       <script charset="utf-8" src="//www.travelpayouts.com/widgets/aef2b3b5d6d1baca0ff58191b3b7914a.js?v=2171" async></script>
+
+</div>
+    {% for i in conf %}
         <div class="container-fluid">
-            <!-- Блок с конференцией-->
-            <div class="conf_block">
-                <div class="row">
-					<div class="col">
-						<div class = "col text-center">
-							Поезд
-						</div>
-					</div>
-					<div class="col">
-						<div class = "col text-center">
-							Самолет
-						</div>
-					</div>
-					<div class="col">
-						<div class = "col text-center">
-							Отель
-						</div>					</div>
-					<div class = "col">
-						<div class = "col text-center">
-							Примерная стоимость
-						</div>
-					</div>
-				</div>
+            <div class="container-fluid" id="conf_block">
+                <div onclick="drop_('{{ i.Name }}')" class="click_">
+                    <div class="container-fluid">
+                        <div class="container row text-center justify-content-center">
+                            <div class="col-xl-4">
+                                <a class="conf_head" href={{ i.link }}>
+                                <p class="conf_head">
+                                    {{ i.Name }}
+                                </p>
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                <p class="city_name">
+                                    {{ i.Country }}, {{ i.city }}
+                                </p>
+                            </div>
+                            <div class="col-md-4">
+                                <p class="city_name">
+                                    {{ i.date_start }} - {{ i.date_end }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div style="margin-top: 15px" class="container-fluid justify-content-center">
+                    {% if i.train != -2 %}
+                        <div class="container row">
+                            <div class="col-md-3">
+                                <div class="fields_name">Поезд</div>
+                                <ul>
+                                <li>Плацкарт:     {{ i.train.Плацкарт }}</li>
+                                <li>Купе:     {{ i.train.Купе }}</li>
+                                <li>СВ:     {{ i.train.СВ }}</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="fields_name">Самолет</div>
+                                    {% if i.plane > 0 %}
+                                        <div>{{ i.plane }}</div>
+                                    {% else %}
+                                        <div>Данные не найдены</div>
+                                    {% endif %}
+                            </div>
+                            <div class="col-md-3">
+                                  <div class="field-name">Отель</div>
+                                        {% if i.hotel > 0 %}
+                                            <div>{{ i.hotel }}</div>
+                                        {% else %}
+                                            <div>Данные не найдены</div>
+                                        {% endif %}
+                            </div>
+                            <div class="col-md-3">
+                               <div class="field-name">Примерная стоимость:   </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    <div id="{{ i.Name }}" class="container-fluid" hidden>
+{#                        <script src="//tp.media/content?promo_id=4072&shmarker=313055&campaign_id=135&locale=ru&powered_by=true&plain=false&border_radius=5&color_border=%23358ed0&color_button=%23C9CADE&color_icons=%23fbb718&color_button_text=%23ffffff" charset="utf-8"></script>#}
+{##}
+{#                       <script charset="utf-8" type="text/javascript">#}
+{#                        window.TP_FORM_SETTINGS = window.TP_FORM_SETTINGS || {};#}
+{#                        window.TP_FORM_SETTINGS["aef2b3b5d6d1baca0ff58191b3b7914a"] = {#}
+{#                        "handle": "aef2b3b5d6d1baca0ff58191b3b7914a",#}
+{#                        "widget_name": "Поисковая форма #1",#}
+{#                        "border_radius": "10",#}
+{#                        "additional_marker": null,#}
+{#                        "width": 501,#}
+{#                        "show_logo": false,#}
+{#                        "show_hotels": false,#}
+{#                        "form_type": "avia_hotel",#}
+{#                        "locale": "ru",#}
+{#                        "currency": "rub",#}
+{#                        "sizes": "default",#}
+{#                        "search_target": "_blank",#}
+{#                        "active_tab": "avia",#}
+{#                        "search_host": "www.aviasales.ru/search",#}
+{#                        "hotels_host": "search.hotellook.com",#}
+{#                        "hotel": "",#}
+{#                        "hotel_alt": "Hotellook - сервис поиска отелей по всему миру, сравнение цен",#}
+{#                        "avia_alt": "www.aviasales.ru - лучшие цены на авиабилеты, спецпредложения авиакомпаний, расписание авиарейсов",#}
+{#                        "retargeting": true,#}
+{#                        "trip_class": "economy",#}
+{#                        "depart_date": null,#}
+{#                        "return_date": "1111-11-11",#}
+{#                        "check_in_date": null,#}
+{#                        "check_out_date": null,#}
+{#                        "no_track": false,#}
+{#                        "powered_by": true,#}
+{#                        "source_id": 51215,#}
+{#                        "id": 244907,#}
+{#                        "marker": 313055,#}
+{#                        "origin": {#}
+{#                            "name": ""#}
+{#                        },#}
+{#                        "destination": {#}
+{#                            "name": ""#}
+{#                        },#}
+{#                        "color_scheme": {#}
+{#                            "name": "white_blue",#}
+{#                            "icons": "icons_blue",#}
+{#                            "background": "#ffffff",#}
+{#                            "color": "#000000",#}
+{#                            "border_color": "#cccccc",#}
+{#                            "button": "#03bae4",#}
+{#                            "button_text_color": "#ffffff",#}
+{#                            "input_border": "#cccccc"#}
+{#                        },#}
+{#                        "hotels_type": "hotellook_host",#}
+{#                        "best_offer": {#}
+{#                            "locale": "ru",#}
+{#                            "currency": "rub",#}
+{#                            "marker": 313055,#}
+{#                            "search_host": "www.aviasales.ru/search",#}
+{#                            "offers_switch": false,#}
+{#                            "api_url": "//www.travelpayouts.com/minimal_prices/offers.json",#}
+{#                            "routes": []#}
+{#                        },#}
+{#                        "hotel_logo_host": null,#}
+{#                        "search_logo_host": "www.aviasales.ru",#}
+{#                        "hotel_marker_format": null,#}
+{#                        "hotelscombined_marker": null,#}
+{#                        "sources": [#}
+{#                            {#}
+{#                                "id": 51215,#}
+{#                                "name": "Cтартовая площадка"#}
+{#                            }#}
+{#                        ],#}
+{#                        "responsive": false,#}
+{#                        "height": 275#}
+{#                    };#}
+{#                    </script>#}
+{#                        <script charset="utf-8" src="//www.travelpayouts.com/widgets/aef2b3b5d6d1baca0ff58191b3b7914a.js?v=2171" async></script>#}
+
+                    </div>
+
+                    {% else %}
+                        <div class="error">Вы проживаете в данном городе</div>
+                        <br>
+                        </div>
+                    </div>
+                    {% endif %}
+                    </div>
             </div>
-        </div>
-        <div class="search">
-            <div class = "col text-center">
-				<button type="submit" class="btn btn-success">Посмотреть варианты транспорта</button>
-            </div>
-        </div>
-    </form>
-<!-- Кнопка получения рез-в-->
+
+    {% endfor %}
+
+
+    <script>
+        function drop_(id){
+            const block = document.getElementById(id)
+            block.hidden = !block.hidden
+        }
+    </script>
+
+    <script>
+        {% if inf.theme %}
+        const theme = document.getElementsByName("select_theme")[0]
+        for (let i of theme){
+            if (i.value == {{ inf.theme }}){
+                i.selected = true
+                break
+            }
+        }
+        {% endif %}
+
+        {% if  inf.keywords %}
+            const keywords = document.getElementsByName("keywords")[0]
+            keywords.defaultValue = "{{ inf.keywords }}"
+        {% endif %}
+
+        {% if inf.country %}
+            const country = document.getElementsByName("select_country")[0]
+            for (let i of country){
+                if (i.value == {{ inf.country }}){
+                    i.selected = true
+                    break
+                }
+            }
+        {% endif %}
+
+        {% if inf.city %}
+            const city = document.getElementsByName("select_city")[0]
+            for (let i of city){
+                if (i.value == {{ inf.city }}){
+                    i.selected = true
+                    break
+                }
+            }
+        {% endif %}
+
+        {% if  inf.date_s %}
+            const date_s = document.getElementsByName("date_start")[0]
+            date_s.defaultValue = "{{ inf.date_s }}"
+        {% endif %}
+
+        {% if  inf.date_f %}
+            const date_f = document.getElementsByName("date_finish")[0]
+            date_f.defaultValue = "{{ inf.date_f }}"
+        {% endif %}
+
+        {% if  inf.money_do %}
+            const money_do = document.getElementsByName("budget")[0]
+            money_do.defaultValue = "{{ inf.money_do }}"
+        {% endif %}
+
+    </script>
+    <script>
+        window.scrollBy(0, window.innerHeight);
+    </script>
+
+
+    <script src="../../static/scripts.js"></script>
 
 <br>
-<br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br><br><br>
 </body>

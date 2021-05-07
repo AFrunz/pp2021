@@ -1,112 +1,158 @@
-.main {
-    font: 18px Corbel;
-    text-align: center;
-}
+/*.main {*/
+/*    font: 18px Corbel;*/
+/*    text-align: center;*/
+/*}*/
 
-.input_fields {
-    margin: 50px;
-    background-color: #bbe9d8;
-    font: 18px Corbel;
-    border-radius: 300px;
-    text-align: center;
-}
+/*.input_fields {*/
+/*    margin: 50px;*/
+/*    background-color: #bbe9d8;*/
+/*    font: 18px Corbel;*/
+/*    border-radius: 300px;*/
+/*    text-align: center;*/
+/*}*/
 
-label {
-    margin: 10px;
-}
+/*label {*/
+/*    margin: 10px;*/
+/*}*/
 
-.search_txt {
-    margin: 20px;
-    width: 170px;
-    height: 20px;
-    background-color: #dce6ef;
-    font: 14px "Times New Roman";
-    border-radius: 5px;
+/*.search_txt {*/
+/*    margin: 20px;*/
+/*    width: 170px;*/
+/*    height: 20px;*/
+/*    background-color: #dce6ef;*/
+/*    font: 14px "Times New Roman";*/
+/*    border-radius: 5px;*/
 
-}
+/*}*/
 
-#keywords {
-    width: 350px;
-}
+/*#keywords {*/
+/*    width: 350px;*/
+/*}*/
 
 
-.params1 {
-    display: inline-block;
-    list-style: none;
-    width: 31%;
-    height: 30px;
-    margin: 10px;
-    float: left;
-    text-align: center;
-}
+/*!*.params1 {*!*/
+/*!*    display: inline-block;*!*/
+/*!*    list-style: none;*!*/
+/*!*    width: 31%;*!*/
+/*!*    height: 30px;*!*/
+/*!*    margin: 10px;*!*/
+/*!*    float: left;*!*/
+/*!*    text-align: center;*!*/
+/*!*}*!*/
 
-.params {
-    padding-left: 10px;
-    padding-top: 5px;
-    display: inline-block;
-    list-style: none;
-    width: 20%;
-    height: 100px;
-    margin-left: 15px;
-    margin-right: 18px;
-    background-color: aquamarine;
-    border-radius: 10px;
-    float: left;
-}
+/*.params {*/
+/*    !*padding-left: 10px;*!*/
+/*    !*padding-top: 5px;*!*/
+/*    !*display: inline-block;*!*/
+/*    !*list-style: none;*!*/
+/*    !*width: 20%;*!*/
+/*    !*height: 100px;*!*/
+/*    !*margin-left: 15px;*!*/
+/*    !*margin-right: 18px;*!*/
+/*    background-color: aquamarine;*/
+/*    border-radius: 10px;*/
+/*    !*float: left;*!*/
+/*}*/
 
-.ul1 {
-    padding: 0;
-}
-.ul2 {
-    padding: 0;
-    width: 100%;
-}
+/*.ul1 {*/
+/*    padding: 0;*/
+/*}*/
+/*.ul2 {*/
+/*    padding: 0;*/
+/*    width: 100%;*/
+/*}*/
 
-.button_search {
-    width: 150px;
-    height: 30px;
-    margin: 25px;
-    font: 18px Calibri;
-    background-color: #dcefec;
-    border-radius: 5px;
-}
+/*.button_search {*/
+/*    width: 150px;*/
+/*    height: 30px;*/
+/*    margin: 25px;*/
+/*    font: 18px Calibri;*/
+/*    background-color: #dcefec;*/
+/*    border-radius: 5px;*/
+/*}*/
+
+/*body {*/
+/*    background-color: #d4f5f2;*/
+/*}*/
+
+/*.conf_block {*/
+/*    margin: 20px;*/
+/*    margin-left: 10px;*/
+/*    margin-right:10px;*/
+/*    border-radius: 10px;*/
+/*    background-color: #f5dddd;*/
+/*    height: 170px;*/
+/*}*/
+
+/*.check {*/
+/*    display: inline-block;*/
+/*    float: left;*/
+/*    margin-top: 13px;*/
+/*    width: 25px;*/
+/*    zoom: 2.5;*/
+/*}*/
+
+/*.error {*/
+/*    margin: 30px;*/
+/*    text-align: center;*/
+/*    font: 36px Calibri;*/
+/*}*/
+
+/*.button_search_transport {*/
+/*    width: 350px;*/
+/*    height: 40px;*/
+/*    margin: 5px;*/
+/*    font: 18px Calibri;*/
+/*    background-color: #dcefec;*/
+/*    border-radius: 5px;*/
+/*}*/
+
+/*.search {*/
+/*    text-align: center;*/
+/*}*/
+
+
+/*!*.conf_block {*!*/
+/*!*    background-color: #ebeced;*!*/
+/*!*}*!*/
 
 body {
-    background-color: #d4f5f2;
+    /*background: content-box radial-gradient(crimson, skyblue);*/
+    background-color: #eff1f4;
 }
 
-.conf_block {
-    margin: 20px;
-    margin-left: 10px;
-    margin-right:10px;
+#conf_block {
+    margin: 20px 20px 20px 20px;
+    width: 99%;
+    justify-content: center;
+    background-color: white;
     border-radius: 10px;
-    background-color: #f5dddd;
-    height: 170px;
+    transition: box-shadow 0.15s linear;
+    padding-top: 12px;
 }
 
-.check {
-    display: inline-block;
-    float: left;
-    margin-top: 13px;
-    width: 25px;
-    zoom: 2.5;
+#conf_block:hover{
+        box-shadow:
+        -7px -7px #e5e5e5,
+        7px -7px #e5e5e5,
+        -7px 7px #e5e5e5,
+        7px 7px #e5e5e5;
+        -webkit-transform: scale(0.999);
+        -ms-transform: scale(0.999);
+        transform: scale(0.999);
 }
 
-.error {
-    margin: 30px;
-    text-align: center;
-    font: 36px Calibri;
+.conf_head {
+    font: 20px Corbel;
+    text-decoration: none;
+    color: #1f9bcf;
 }
 
-.button_search_transport {
-    width: 350px;
-    height: 40px;
-    margin: 5px;
-    font: 18px Calibri;
-    background-color: #dcefec;
-    border-radius: 5px;
+.conf_head:hover {
+  text-decoration: underline;
 }
 
-.search {
-    text-align: center;
+.city_name {
+    font: 20px bold Inconsolata;
 }
+

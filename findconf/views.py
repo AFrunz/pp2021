@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .step1 import *
 from .backend.train_pars import train_parse
+from .backend.sf import dr
+from .backend.citiesname import g
 from .models import feedback, country_info, city_info
 import json
 
@@ -28,12 +30,7 @@ def second_step(request):
         print(d)
         conf = get_res(d["country"], d["city"], d["theme"], d["keywords"], d["money_do"],
                        d["date_s"], d["date_f"])
-        return render(request, 'findconf/second_step.html', context={"conf": conf})
-    # {"conf": conf}
-    if request.method == "POST":
-        country = request.POST.get("country")
-        print(country)
-    return render(request, 'findconf/second_step.html')
+        return render(request, 'findconf/second_step.html', context={"conf": conf, "inf": d})
 
 
 def third_step(request):
@@ -43,8 +40,10 @@ def third_step(request):
 
 
 def zero_step(request):
-    print(request.POST.get("select_country"))
     return redirect(second_step)
+
+def half_step(request):
+    return render(request, 'findconf/csrf.html')
 
 
 def Feedback(request):

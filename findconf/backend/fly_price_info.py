@@ -33,6 +33,8 @@ class fly_price_info:
 
     def __filter(self, data):
         new_data = []
+        if data == None:
+            return
         for i in data:
             if i["depart_date"] == self.date_start and i["return_date"] == self.date_finish:
                 new_data.append(i)

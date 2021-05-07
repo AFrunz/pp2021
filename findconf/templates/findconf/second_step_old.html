@@ -1,0 +1,226 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'style.css'%}">
+    <title>Подбор конференции</title>
+</head>
+<body>
+    <div class="main">
+        <h1>Подбор конференции</h1>
+    </div>
+<!--Поля ввода-->
+    <div class="input_fields">
+        <form method="get" name="form1">
+            {% csrf_token %}
+        <!--Выбор страны проживания-->
+            <label for="select_country">Выберите страну вашего проживания</label>
+            <select class="search_txt" name="select_country" autofocus={{ d.country }}>
+                <option value="">Выберите страну</option>
+                <option value="1">Азербайджан</option>
+                <option value="2">Армения</option>
+                <option value="3">Беларусь</option>
+                <option value="4">Грузия</option>
+                <option value="5">Донецкая Народная Республика</option>
+                <option value="6">Казахстан</option>
+                <option value="7">Литва</option>
+                <option value="8">Молдова</option>
+                <option value="9">Польша</option>
+                <option value="10">Россия</option>
+                <option value="11">Сербия</option>
+                <option value="12">Узбекистан</option>
+                <option value="13">Украина</option>
+                </select>
+            <br>
+        <!--Выбор города проживания-->
+            <label for="select_city">Выберите город вашего проживания</label>
+            <select class="search_txt" name="select_city">
+                <option value="">Выберите город</option>
+            </select>
+            <br>
+            <!--Выбор темы конференции-->
+            <label for="select_theme">Выберите тематику вашей конференции</label>
+            <select class="search_txt" name="select_theme">
+                <option value="">Выберите тематику</option>
+                <option value="30">Археология</option>
+                <option value="60">Архитектура, Строительство</option>
+                <option value="47">Астрономия</option>
+                <option value="78">Безопасность</option>
+                <option value="27">Библиотековедение</option>
+                <option value="44">Биология</option>
+                <option value="38">Биотехнологии</option>
+                <option value="24">Ветеринария</option>
+                <option value="25">География</option>
+                <option value="45">Геология</option>
+                <option value="561">Государственное управление</option>
+                <option value="20">Гуманитарные науки</option>
+                <option value="137">Естественные науки</option>
+                <option value="75">Журналистика</option>
+                <option value="34">Зоология</option>
+                <option value="84">Иностранные языки</option>
+                <option value="22">Информационные технологии</option>
+                <option value="29">Искусствоведение, Дизайн</option>
+                <option value="39">История</option>
+                <option value="26">Космос, Авиация</option>
+                <option value="274">Краеведение, Геоурбанистика</option>
+                <option value="14">Культурология</option>
+                <option value="2">Лазерные технологии</option>
+                <option value="326">Маркетинг</option>
+                <option value="40">Математика</option>
+                <option value="6">Материаловедение</option>
+                <option value="17">Машиностроение</option>
+                <option value="16">Медицина</option>
+                <option value="552">Менеджмент</option>
+                <option value="95">Металлургия</option>
+                <option value="66">Моделирование</option>
+                <option value="7">Молодые ученые</option>
+                <option value="558">Музееведение</option>
+                <option value="80">Музыковедение</option>
+                <option value="61">Нанотехнологии</option>
+                <option value="41">Науки о Земле</option>
+                <option value="1">Образование, Аттестация</option>
+                <option value="90">Общественные науки</option>
+                <option value="21">Педагогика</option>
+                <option value="48">Пищевая промышленность</option>
+                <option value="33">Политология</option>
+                <option value="36">Проблемы науки, Инновации</option>
+                <option value="23">Психология</option>
+                <option value="35">Радиотехника, Электроника</option>
+                <option value="55">Разное</option>
+                <option value="77">Религиоведение, История</option>
+                <option value="42">Ресурсосбережение</option>
+                <option value="13">Сельское хозяйство</option>
+                <option value="81">Социология</option>
+                <option value="54">Спорт, Туризм, Отдых</option>
+                <option value="59">Телекоммуникации</option>
+                <option value="138">Технические науки</option>
+                <option value="15">Технологии</option>
+                <option value="52">Транспортные коммуникации</option>
+                <option value="193">Фармакология, Фармация</option>
+                <option value="10">Физика</option>
+                <option value="64">Физическая культура</option>
+                <option value="12">Филология</option>
+                <option value="43">Философия</option>
+                <option value="11">Химия</option>
+                <option value="183">Широкая тематика</option>
+                <option value="4">Экология, Природопользование</option>
+                <option value="8">Экономика, Управление, Финансы</option>
+                <option value="63">Электротехника</option>
+                <option value="62">Энергетика</option>
+                <option value="79">Этнология, Антропология, Демография</option>
+                <option value="49">Юридические науки</option>
+            </select>
+            <br>
+        <!--Ввод ключевых слов-->
+            <label for="keywords">Ключевые слова</label>
+            <input type="text" class="search_txt" placeholder="Найти" value="" name="keywords">
+        <!--Ввод диапазона цен(бюджет)-->
+            <br>
+            <label for="price_low">Введите ваш бюджет</label>
+            <input class="search_txt" type="number" placeholder="От" value="" name="price_low">
+            <label for="price_up"></label>
+            <input class="search_txt" type="number" placeholder="До" value="" name="price_up">
+        <!--Ввод диапазона дат-->
+            <br>
+            <label>Выберите диапазон удобных дат</label>
+            <br>
+            <label for="date_start">От</label>
+            <input class="search_txt" type="date" name="date_start">
+            <label for="date_finish">До</label>
+            <input class="search_txt" type="date" name="date_finish" value="" placeholder="">
+            <br>
+            <button type=submit class="button_search">Поиск</button>
+        </form>
+    </div>
+<!-- Результаты: Конференция и цена проезда и проживания-->
+    <form method="post" name="form2">
+    {% csrf_token %}
+        <div class="conf_results">
+            <!-- Блок с конференцией-->
+            {% for i in conf %}
+            <div class="conf_block">
+                <div class="ul1">
+                    <div class="params1">
+                        <a href={{ i.link }}>
+                        <div class="conf_head">
+                            {{ i.Name }}
+                        </div>
+                        </a>
+                    </div>
+                    <div class="params1">
+                        <div class="price">
+                            {{ i.Country }}, {{ i.city }}
+                        </div>
+                    </div>
+                    <div class="params1">
+                        {{ i.date_start }} - {{ i.date_end }}
+                    </div>
+                </div>
+                {% if i.train != -2 %}
+                <div class="ul2">
+                    <input class="check" type="checkbox">
+                    <div class="params">
+                        <div class="price">
+                            <div class="train_price">
+                                <div class="fields_name">Поезд</div>
+                                <ul>
+                                    <li>Плацкарт:     {{ i.train.Плацкарт }}</li>
+                                    <li>Купе:     {{ i.train.Купе }}</li>
+                                    <li>СВ:     {{ i.train.СВ }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="params">
+                        <div class="price">
+                            <div class="train_price">
+                                <div class="fields_name">Самолет</div>
+                                {% if i.plane > 0 %}
+                                    <div>{{ i.plane }}</div>
+                                {% else %}
+                                    <div>Данные не найдены</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="params">
+                        <div class="hotel_price">
+                            <div class="field-name">Отель</div>
+                            {% if i.hotel > 0 %}
+                            <div>{{ i.hotel }}</div>
+                            {% else %}
+                                <div>Данные не найдены</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="params">
+                       <div class="field-name">Примерная стоимость:   </div>
+                    </div>
+                </div>
+                {% else %}
+                    <br>
+                    <div class="error">Вы проживаете в данном городе</div>
+                    <br>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        <div class="search">
+            <button type="submit" class="button_search_transport">Посмотреть варианты транспорта</button>
+        </div>
+    </form>
+<!-- Кнопка получения рез-в-->
+
+
+
+
+
+
+
+
+<br>
+<br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+</body>
+</html>

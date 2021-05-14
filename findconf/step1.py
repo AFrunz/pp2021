@@ -18,7 +18,7 @@ from findconf.backend import get_city_code, conf_pars, train_pars, fly_price_inf
 import time
 from findconf.models import *
 from findconf.backend.hotel_api import strtodate
-
+from findconf.backend.hotel_api import date_str_to_cal
 
 # True - входит в бюджет, False - нет
 def price_filtr(hotel_price, budget):
@@ -65,13 +65,13 @@ def get_res(Country, city, theme, keywords, money_do, data_p_s, data_p_e):
             j["plane"] = -2
             j["hotel"] = -2
         else:
-            tab = table_avia_sr(home_city_code, j["code"], strtodate(j["date_start"]), strtodate(j["date_end"]))
+            tab = table_avia_sr(home_city_code, j["code"], date_str_to_cal(strtodate(j["date_start"]), -1), date_str_to_cal(strtodate(j["date_end"]), 1))
             if tab == -1:
                 plane_price = fly_price_info.fly_price_info(home_city_code, j["code"], j["date_start"], j["date_end"])
                 j["plane"] = plane_price.get_res()
             else:
                 j["plane"] = tab
-            tab = table_hotel_sr(j["code"], strtodate(j["date_start"]), strtodate(j["date_end"]))
+            tab = table_hotel_sr(j["code"], date_str_to_cal(strtodate(j["date_start"]), -1), date_str_to_cal(strtodate(j["date_start"]), 1))
             if tab == -1:
                 hotel_price = h.hotel_api(j["code"], j["date_start"], j["date_end"])
                 j["hotel"] = hotel_price.get_res()
@@ -86,7 +86,7 @@ def get_res(Country, city, theme, keywords, money_do, data_p_s, data_p_e):
         if i["train"] == -1 or i["code"] == home_city_code:
             continue
         info = table_find_sr(train_pars.transliteration2(city), train_pars.transliteration2(i["city"]),
-                             strtodate(i["date_start"]), strtodate(i["date_end"]))
+                             date_str_to_cal(strtodate(j["date_start"]), -1), date_str_to_cal(strtodate(j["date_start"]), 1))
         if info != 0:
             i["train"] = info
         else:

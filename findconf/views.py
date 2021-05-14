@@ -3,7 +3,6 @@ from django.http import HttpResponse
 from .step1 import *
 from .backend.train_pars import train_parse
 from .backend.sf import dr
-from .backend.citiesname import g
 from .models import feedback, country_info, city_info
 import json
 

@@ -59,3 +59,4 @@ vk==2.0.2
 vk-api==11.9.0
 w3lib==1.22.0
 websockets==8.1
+whitenoise==5.2.0

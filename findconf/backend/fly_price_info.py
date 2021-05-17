@@ -10,18 +10,18 @@ import requests
 import json
 from findconf.backend.hotel_api import strtodate
 from findconf.models import avia_info
+from findconf.backend.hotel_api import date_str_to_cal
 
 class fly_price_info:
     """Класс возвращает среднюю цену по перелетам"""
     def __init__(self, origin, destination, date_start, date_finish):
         self.origin = origin
         self.destination = destination
-        self.date_start = strtodate(date_start)
-        self.date_finish = strtodate(date_finish)
+        self.date_start = date_str_to_cal(strtodate(date_start), -1)
+        self.date_finish = date_str_to_cal(strtodate(date_finish), 1)
         self.__link_up()
         self.__get()
         self.__analysys()
-        self.__table_p()
 
     def __link_up(self):
         """Модификация ссылки"""
@@ -40,7 +40,6 @@ class fly_price_info:
                 new_data.append(i)
         return new_data
 
-
     def __get(self):
         """Получение результатов запроса"""
         a = requests.get(self.link).text
@@ -50,13 +49,24 @@ class fly_price_info:
         data = self.info["data"]
         summa = 0
         k = 0
-        data = self.__filter(data)
-        for i in data:
-            summa += i["value"]
-            k += 1
-        if k != 0:
-            summa = summa // k
-        self.sr = summa
+        new_data = self.__filter(data)
+        if len(new_data) > 0:
+            data = new_data
+            for i in data:
+                summa += i["value"]
+                k += 1
+            if k != 0:
+                summa = summa // k
+            self.sr = summa
+            self.__table_p()
+        else:
+            for i in data:
+                summa += i["value"]
+                k += 1
+            if k != 0:
+                summa = summa // k
+            self.sr = str(summa)
+
 
     def get_res(self):
         return self.sr

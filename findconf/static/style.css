@@ -156,3 +156,9 @@ body {
     font: 20px bold Inconsolata;
 }
 
+.smal_t {
+    font: 16px bold Inconsolata;
+    margin-bottom: 1px;
+    margin-left: 15px;
+}
+

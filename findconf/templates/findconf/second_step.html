@@ -35,7 +35,7 @@
 		</div>
 	</nav>
 	<div class = "container">
-		<form role = "form" method = "get" name="form1" id="form1" action="sear/">
+		<form role = "form" method = "get" name="form1" id="form1" action="/sear/">
             {% csrf_token %}
 		<div class = "mx-auto">
 			<p class = "text-block">
@@ -43,6 +43,7 @@
 					<label for="select_theme">Выберите тематику конференции</label>
 				</div>
 					<select class= "form-control" name="select_theme">
+                    <option value="">Выберите тематику</option>
 					<option value="30">Археология</option>
 					<option value="60">Архитектура, Строительство</option>
 					<option value="47">Астрономия</option>
@@ -390,10 +391,10 @@
 				</div>
 				<div class = "row">
 					<div class = "col">
-						<input type="date" class="form-control" id="date1" name="date_start" placeholder="Дата с" required>
+						<input type="date" class="form-control" id="date1" name="date_start" placeholder="Дата с">
 					</div>
 					<div class = "col">
-						<input type="date" class="form-control" id="date2" name="date_finish" placeholder="Дата до" required>
+						<input type="date" class="form-control" id="date2" name="date_finish" placeholder="Дата до">
 					</div>
 				</div>
             </p>
@@ -425,7 +426,7 @@
     {% for i in conf %}
         <div class="container-fluid">
             <div class="container-fluid" id="conf_block">
-                <div onclick="drop_('{{ i.Name }}')" class="click_">
+                <div class="click_">
                     <div class="container-fluid">
                         <div class="container row text-center justify-content-center">
                             <div class="col-xl-4">
@@ -442,15 +443,20 @@
                             </div>
                             <div class="col-md-4">
                                 <p class="city_name">
+                                    <img src="{% static 'allert.png' %}" class="btn-secondary" width="15px" height="15px" data-toggle="tooltip" data-placement="top" title="Цены на билеты и проживание в отеле указаны с учетом приезда за день до начала конференции и выезда на следующий день после конца конференции">
                                     {{ i.date_start }} - {{ i.date_end }}
                                 </p>
                             </div>
                         </div>
                     </div>
-                    <hr>
+                    <p class="smal_t">
+                        Средняя цена:
+                    </p>
+                    <hr style="margin-top: 1px">
                     <div style="margin-top: 15px" class="container-fluid justify-content-center">
                     {% if i.train != -2 %}
                         <div class="container row">
+                            {% if i.train != -1 %}
                             <div class="col-md-3">
                                 <div class="fields_name">Поезд</div>
                                 <ul>
@@ -459,8 +465,18 @@
                                 <li>СВ:     {{ i.train.СВ }}</li>
                                 </ul>
                             </div>
+                            {% else %}
+                                <div class="col-md-3">
+                                    <div class="fields_name">Поезд</div>
+                                    <p>Данные не найдены</p>
+                                </div>
+                            {% endif %}
                             <div class="col-md-3">
-                                <div class="fields_name">Самолет</div>
+                                <div class="fields_name">
+                                    {% if i.plane_type == 2 %}
+                                    <img src="{% static 'allert.jpg' %}" class="btn-secondary" width="15px" height="15px" data-toggle="tooltip" data-placement="top" title="Указана средняя цена за месяц, билетов на эти даты может не быть">
+                                    {% endif %}
+                                    Самолет</div>
                                     {% if i.plane > 0 %}
                                         <div>{{ i.plane }}</div>
                                     {% else %}
@@ -477,89 +493,15 @@
                             </div>
                             <div class="col-md-3">
                                <div class="field-name">Примерная стоимость:   </div>
+                                {% if i.medium != -1 %}
+                                    <div> {{ i.medium }}</div>
+                                {% else %}
+                                    <div>Данные не найдены</div>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
                     </div>
-                    <div id="{{ i.Name }}" class="container-fluid" hidden>
-{#                        <script src="//tp.media/content?promo_id=4072&shmarker=313055&campaign_id=135&locale=ru&powered_by=true&plain=false&border_radius=5&color_border=%23358ed0&color_button=%23C9CADE&color_icons=%23fbb718&color_button_text=%23ffffff" charset="utf-8"></script>#}
-{##}
-{#                       <script charset="utf-8" type="text/javascript">#}
-{#                        window.TP_FORM_SETTINGS = window.TP_FORM_SETTINGS || {};#}
-{#                        window.TP_FORM_SETTINGS["aef2b3b5d6d1baca0ff58191b3b7914a"] = {#}
-{#                        "handle": "aef2b3b5d6d1baca0ff58191b3b7914a",#}
-{#                        "widget_name": "Поисковая форма #1",#}
-{#                        "border_radius": "10",#}
-{#                        "additional_marker": null,#}
-{#                        "width": 501,#}
-{#                        "show_logo": false,#}
-{#                        "show_hotels": false,#}
-{#                        "form_type": "avia_hotel",#}
-{#                        "locale": "ru",#}
-{#                        "currency": "rub",#}
-{#                        "sizes": "default",#}
-{#                        "search_target": "_blank",#}
-{#                        "active_tab": "avia",#}
-{#                        "search_host": "www.aviasales.ru/search",#}
-{#                        "hotels_host": "search.hotellook.com",#}
-{#                        "hotel": "",#}
-{#                        "hotel_alt": "Hotellook - сервис поиска отелей по всему миру, сравнение цен",#}
-{#                        "avia_alt": "www.aviasales.ru - лучшие цены на авиабилеты, спецпредложения авиакомпаний, расписание авиарейсов",#}
-{#                        "retargeting": true,#}
-{#                        "trip_class": "economy",#}
-{#                        "depart_date": null,#}
-{#                        "return_date": "1111-11-11",#}
-{#                        "check_in_date": null,#}
-{#                        "check_out_date": null,#}
-{#                        "no_track": false,#}
-{#                        "powered_by": true,#}
-{#                        "source_id": 51215,#}
-{#                        "id": 244907,#}
-{#                        "marker": 313055,#}
-{#                        "origin": {#}
-{#                            "name": ""#}
-{#                        },#}
-{#                        "destination": {#}
-{#                            "name": ""#}
-{#                        },#}
-{#                        "color_scheme": {#}
-{#                            "name": "white_blue",#}
-{#                            "icons": "icons_blue",#}
-{#                            "background": "#ffffff",#}
-{#                            "color": "#000000",#}
-{#                            "border_color": "#cccccc",#}
-{#                            "button": "#03bae4",#}
-{#                            "button_text_color": "#ffffff",#}
-{#                            "input_border": "#cccccc"#}
-{#                        },#}
-{#                        "hotels_type": "hotellook_host",#}
-{#                        "best_offer": {#}
-{#                            "locale": "ru",#}
-{#                            "currency": "rub",#}
-{#                            "marker": 313055,#}
-{#                            "search_host": "www.aviasales.ru/search",#}
-{#                            "offers_switch": false,#}
-{#                            "api_url": "//www.travelpayouts.com/minimal_prices/offers.json",#}
-{#                            "routes": []#}
-{#                        },#}
-{#                        "hotel_logo_host": null,#}
-{#                        "search_logo_host": "www.aviasales.ru",#}
-{#                        "hotel_marker_format": null,#}
-{#                        "hotelscombined_marker": null,#}
-{#                        "sources": [#}
-{#                            {#}
-{#                                "id": 51215,#}
-{#                                "name": "Cтартовая площадка"#}
-{#                            }#}
-{#                        ],#}
-{#                        "responsive": false,#}
-{#                        "height": 275#}
-{#                    };#}
-{#                    </script>#}
-{#                        <script charset="utf-8" src="//www.travelpayouts.com/widgets/aef2b3b5d6d1baca0ff58191b3b7914a.js?v=2171" async></script>#}
-
-                    </div>
-
                     {% else %}
                         <div class="error">Вы проживаете в данном городе</div>
                         <br>
@@ -572,12 +514,12 @@
     {% endfor %}
 
 
-    <script>
-        function drop_(id){
-            const block = document.getElementById(id)
-            block.hidden = !block.hidden
-        }
-    </script>
+{#    <script>#}
+{#        function drop_(id){#}
+{#            const block = document.getElementById(id)#}
+{#            block.hidden = !block.hidden#}
+{#        }#}
+{#    </script>#}
 
     <script>
         {% if inf.theme %}
@@ -636,7 +578,7 @@
     </script>
 
 
-    <script src="../../static/scripts.js"></script>
+    <script src="{% static 'scripts.js' %}"></script>
 
 <br>
 <br><br><br>

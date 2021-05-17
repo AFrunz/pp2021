@@ -5,8 +5,8 @@ from .views import *
 urlpatterns = [
     path('', index),
     path('search/', second_step),
-    path('search1/', third_step),
-    path('zero/', zero_step),
+    # path('search1/', third_step),
+    # path('zero/', zero_step),
     path('feedback/', Feedback),
     path(r'^favicon\.ico$', RedirectView.as_view(url='/static/img/favicon.ico', permanent=True)),
     path(r'^load\.gif$', RedirectView.as_view(url='/static/img/load.gif', permanent=True)),

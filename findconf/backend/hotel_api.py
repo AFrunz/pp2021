@@ -5,7 +5,7 @@
 import requests
 import json
 from findconf.models import hotel_info
-
+import datetime
 
 def strtodate(date):
     if date == '':
@@ -28,13 +28,29 @@ def strtodate(date):
         return new_date
     return date
 
+def date_str_to_cal(f_date, pon):
+    date_year = int(f_date[0:4])
+    date_month = int(f_date[5:7])
+    date_day = int(f_date[8:10])
+    date = datetime.date(date_year, date_month, date_day)
+    p_day = datetime.timedelta(days = 1)
+    tomorrow_date = date + p_day
+    yesterday_date = date - p_day
+    if pon == 1:
+        str_t = str(tomorrow_date)
+        return(str_t)
+    elif pon == -1:
+        str_y = str(yesterday_date)
+        return(str_y)
+    else:
+        return -1
 
 class hotel_api:
 
     def __init__(self, city, start_date, finish_date):
         self.city = city
-        self.start_date = strtodate(start_date)
-        self.finish_date = strtodate(finish_date)
+        self.start_date = date_str_to_cal(strtodate(start_date), -1)
+        self.finish_date = date_str_to_cal(strtodate(finish_date), 1)
         self.__getInfo()
         self.__table_p()
 
@@ -74,3 +90,9 @@ class hotel_api:
         a = hotel_info(city=self.city, date_start=self.start_date, date_finish=self.finish_date,
                        price=self.res)
         a.save()
+
+
+f_date ="2021-12-31"
+date_str_to_cal(f_date, 1)
+date_str_to_cal(f_date, -1)
+date_str_to_cal(f_date, 0)

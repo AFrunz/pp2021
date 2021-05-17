@@ -1,20 +1,27 @@
+import requests
+import time
+from bs4 import BeautifulSoup as BS
+
+from findconf.backend.hotel_api import date_str_to_cal
+from findconf.backend.hotel_api import strtodate
+from findconf.models import train_sr
+
 """Парсер поездов + данные о поездах
 Входные данные: Город отправления, город прибытия, дата отправления, дата прибытия
 Выходные данные: Номер, ссылка, город, дата и вокзал отправления и прибытия,
 рейтинг и цена"""
 """Сейчас считает среднюю по каждой категории"""
-"""Доработать: 
-1) Сделать выгрузку данных в бд (сделано)
-2) Доработать возвращаемое среднее значение, сделать словарь из 5 значений, 3 обычных вагона и 2 сапсана"""
 
-import requests, time
-from bs4 import BeautifulSoup as BS
-from findconf.backend.hotel_api import strtodate
-from findconf.models import train_inf, train_sr
 
 HEADERS = {'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
                          'Chrome/86.0.4240.111 Safari/537.36', 'accept': '*/*',
-           'cookie': 'G_AUTHUSER_H=0; G_ENABLED_IDPS=google; _ga=GA1.1.1708452945.1603900516; G_AUTHUSER_H=0; df_id=93a48948b52daf05e4f48c9f0e15a37d; xf_user=3626977%2C5095f49fae7649341ebe39a668dc4d66fc2cf4a6; xf_logged_in=1; xf_session=736654ce9b5a156fdf2bf94a69c0265b; xf_market_items_viewed=8103659; xf_market_custom_cat_id=2; xf_market_search_url=%2Fmarket%3Fcategory_id%3D2%26_loadSearchBar%3Dtrue%26title%3D%26_xfRequestUri%3D%252Fmarket%252F%26_xfNoRedirect%3D1%26_xfToken%3D3626977%252C1604229396%252C385cb84b3d3bb290650e7a0e188a6514f1eafb89%26_xfResponseType%3Djson; _ga_J7RS527GFK=GS1.1.1604227707.6.1.1604229406.0'
+           'cookie':
+            'G_AUTHUSER_H=0; G_ENABLED_IDPS=google; _ga=GA1.1.1708452945.1603900516; G_AUTHUSER_H=0; df_id=93a4894'
+            '8b52daf05e4f48c9f0e15a37d; xf_user=3626977%2C5095f49fae7649341ebe39a668dc4d66fc2cf4a6; xf_logged_in=1; xf_session=7366'
+            '54ce9b5a156fdf2bf94a69c0265b; xf_market_items_viewed=8103659; xf_market_custom_cat_id=2; xf_market_search'
+            '_url=%2Fmarket%3Fcategory_id%3D2%26_loadSearchBar%3Dtrue%26title%3D%26_xfRequestUri%3D%252Fmarket%252F%26'
+            '_xfNoRedirect%3D1%26_xfToken%3D3626977%252C1604229396%252C385cb84b3d3bb290650e7a0e188a6514f1eafb89%26_xfR'
+            'esponseType%3Djson; _ga_J7RS527GFK=GS1.1.1604227707.6.1.1604229406.0'
            }
 
 
@@ -25,8 +32,8 @@ def transliteration2(text):
     return text.translate({ord(k): v for k, v in zip(cyrillic, latin)})
 
 
-def strtodate2(date):
-    date = strtodate(date)
+def strtodate2(date, k):
+    date = date_str_to_cal(strtodate(date), k)
     date = date[-2:] + '.' + date[-5:-3] + '.' + date[:4]
     return date
 
@@ -48,10 +55,6 @@ class train_dict:
                       "Экономический +": 0, "Вагон-бистро": 0, "Бизнес класс": 0,
                       "Первый класс": 0, "Купе-переговорная": 0}
 
-    def dict_print(self):
-        print(self.number, self.link, self.city_iz, self.vokzal_iz, self.time_iz, self.city_v, self.vokzal_v,
-              self.time_v, self.rating)
-        print(self.price)
 
 
 class train_parse:
@@ -60,8 +63,8 @@ class train_parse:
     def __init__(self, city_from, city_to, date_start, date_finish):
         self.city_from = transliteration2(city_from)
         self.city_to = transliteration2(city_to)
-        self.date_start = strtodate2(date_start)
-        self.date_finish = strtodate2(date_finish)
+        self.date_start = strtodate2(date_start, -1)
+        self.date_finish = strtodate2(date_finish, 1)
         self.old_ds = strtodate(date_start)
         self.old_df = strtodate(date_finish)
         self.__parse()
@@ -97,12 +100,12 @@ class train_parse:
         dop = self.city_from + '/' + self.city_to + '?date=' + self.date_start + "&returnDate=" + self.date_finish
         self.link = (link + dop).lower()
 
-    def __push_table(self, l):
-        a = train_inf(number=l.number, link=l.link, city_iz=l.city_iz, vokzal_iz=l.vokzal_iz,
-                       time_iz=l.time_iz, date_iz=self.old_ds, city_v=l.city_v,
-                       vokzal_v=l.vokzal_v, time_v=l.time_v, date_v=self.old_df,
-                       price_1=l.price["Плацкарт"], price_2=l.price["Купе"], price_3=l.price["СВ"])
-        a.save()
+    # def __push_table(self, l):
+    #     a = train_inf(number=l.number, link=l.link, city_iz=l.city_iz, vokzal_iz=l.vokzal_iz,
+    #                    time_iz=l.time_iz, date_iz=self.old_ds, city_v=l.city_v,
+    #                    vokzal_v=l.vokzal_v, time_v=l.time_v, date_v=self.old_df,
+    #                    price_1=l.price["Плацкарт"], price_2=l.price["Купе"], price_3=l.price["СВ"])
+    #     a.save()
 
     def __push_sr(self, l):
         a = train_sr(date_iz=self.old_ds, date_v=self.old_df, city_iz=self.city_from, city_v=self.city_to,
@@ -113,16 +116,16 @@ class train_parse:
         """Основа парсера"""
         t1 = time.time()
         self.__linkUpdate()
-        print(f"S1: {time.time() - t1}")
+        # print(f"S1: {time.time() - t1}")
         t1 = time.time()
         Html = self.__getHTML()
-        print(f"S2: {time.time() - t1}")
+        # print(f"S2: {time.time() - t1}")
         t1 = time.time()
         self.result = self.__getInf(Html)
-        print(f"S3: {time.time() - t1}")
+        # print(f"S3: {time.time() - t1}")
         t1 = time.time()
         self.aver = self.__get_average()
-        print(f"S3: {time.time() - t1}")
+        # print(f"S3: {time.time() - t1}")
         t1 = time.time()
 
     def __getHTML(self):
@@ -179,10 +182,6 @@ class train_parse:
                 l.price[key] = str(i.find("span", class_="wg-wagon-type__price-value").get_text())[:-6].replace(',',
                                                                                                                 '.').replace(
                     ' ', '')
-            self.__push_table(l)
             all_data.append(l)
-        print(f"T: {time.time() - t1}")
+        # print(f"T: {time.time() - t1}")
         return all_data
-
-
-# a = train_parse("Москва", "Санкт-Петербург", "24апреля2021г", "26апреля2021г")

@@ -2,15 +2,12 @@
 Входные данные: Город отправления, город прибытия, дата отправления, дата прибытия
 Выходные данные: Средняя цена если самолеты есть, 0 если самолетов нет"""
 
-
-"""В разное время билеты стоят по разному, а тут мы считаем среднее билетов за все время"""
-"""Исправил, но маловато самолетов он находит(1 обычно, 0 - реже)"""
-
 import requests
 import json
 from findconf.backend.hotel_api import strtodate
 from findconf.models import avia_info
 from findconf.backend.hotel_api import date_str_to_cal
+
 
 class fly_price_info:
     """Класс возвращает среднюю цену по перелетам"""
@@ -26,14 +23,14 @@ class fly_price_info:
     def __link_up(self):
         """Модификация ссылки"""
         token = "&token=7051a5c613492481369c11039ff6d599"
-        link = "http://api.travelpayouts.com/v2/prices/latest?currency=rub&page=1&limit=1000&one_way=false&show_to_affiliates=true&sorting=price"
+        link = "http://api.travelpayouts.com/v2/prices/latest?currency=rub&page=1&limit=" \
+               "1000&one_way=false&show_to_affiliates=true&sorting=price"
         link += '&origin=' + str(self.origin) + '&destination=' + str(self.destination) + '&' + token
         self.link = link
 
-
     def __filter(self, data):
         new_data = []
-        if data == None:
+        if data is None:
             return
         for i in data:
             if i["depart_date"] == self.date_start and i["return_date"] == self.date_finish:
@@ -66,7 +63,6 @@ class fly_price_info:
             if k != 0:
                 summa = summa // k
             self.sr = str(summa)
-
 
     def get_res(self):
         return self.sr

@@ -46,11 +46,10 @@ function load_page() {
     xhr.onreadystatechange = function () {
         const heas = document.getElementById('heas')
         heas.remove()
-        console.log('yeee')
+        console.log('Пасхалочка')
         document.write(xhr.responseText)
     }
     xhr.send()
-    console.log(xhr.readyState)
 }
 
 //

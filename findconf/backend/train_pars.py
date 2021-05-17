@@ -17,7 +17,8 @@ HEADERS = {'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/
                          'Chrome/86.0.4240.111 Safari/537.36', 'accept': '*/*',
            'cookie':
             'G_AUTHUSER_H=0; G_ENABLED_IDPS=google; _ga=GA1.1.1708452945.1603900516; G_AUTHUSER_H=0; df_id=93a4894'
-            '8b52daf05e4f48c9f0e15a37d; xf_user=3626977%2C5095f49fae7649341ebe39a668dc4d66fc2cf4a6; xf_logged_in=1; xf_session=7366'
+            '8b52daf05e4f48c9f0e15a37d; xf_user=3626977%2C5095f49fae7649341ebe39a668dc4d66fc2cf4a6; xf_logged'
+            '_in=1; xf_session=7366'
             '54ce9b5a156fdf2bf94a69c0265b; xf_market_items_viewed=8103659; xf_market_custom_cat_id=2; xf_market_search'
             '_url=%2Fmarket%3Fcategory_id%3D2%26_loadSearchBar%3Dtrue%26title%3D%26_xfRequestUri%3D%252Fmarket%252F%26'
             '_xfNoRedirect%3D1%26_xfToken%3D3626977%252C1604229396%252C385cb84b3d3bb290650e7a0e188a6514f1eafb89%26_xfR'
@@ -27,8 +28,8 @@ HEADERS = {'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/
 
 def transliteration2(text):
     cyrillic = 'абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ'
-    latin = 'a|b|v|g|d|e|e|zh|z|i|i|k|l|m|n|o|p|r|s|t|u|f|kh|tc|ch|sh|shch||y||e|iu|ia|A|B|V|G|D|E|E|Zh|Z|I|I|K|L|M|N|O|P|R|S|T|U|F|Kh|Tc|Ch|Sh|Shch||Y||E|Iu|Ia'.split(
-        '|')
+    latin = 'a|b|v|g|d|e|e|zh|z|i|i|k|l|m|n|o|p|r|s|t|u|f|kh|tc|ch|' \
+            'sh|shch||y||e|iu|ia|A|B|V|G|D|E|E|Zh|Z|I|I|K|L|M|N|O|P|R|S|T|U|F|Kh|Tc|Ch|Sh|Shch||Y||E|Iu|Ia'.split('|')
     return text.translate({ord(k): v for k, v in zip(cyrillic, latin)})
 
 
@@ -36,6 +37,7 @@ def strtodate2(date, k):
     date = date_str_to_cal(strtodate(date), k)
     date = date[-2:] + '.' + date[-5:-3] + '.' + date[:4]
     return date
+
 
 class train_dict:
     """Информация о поезеде"""
@@ -54,7 +56,6 @@ class train_dict:
                       "Эконом класс": 0,
                       "Экономический +": 0, "Вагон-бистро": 0, "Бизнес класс": 0,
                       "Первый класс": 0, "Купе-переговорная": 0}
-
 
 
 class train_parse:
@@ -96,16 +97,8 @@ class train_parse:
     def __linkUpdate(self):
         """Модификация ссылки с учетом вводных данных"""
         link = "https://www.ufs-online.ru/kupit-zhd-bilety/"
-        to = "moskva/sankt-peterburg?date=24.03.2021&returnDate=25.03.2021"
         dop = self.city_from + '/' + self.city_to + '?date=' + self.date_start + "&returnDate=" + self.date_finish
         self.link = (link + dop).lower()
-
-    # def __push_table(self, l):
-    #     a = train_inf(number=l.number, link=l.link, city_iz=l.city_iz, vokzal_iz=l.vokzal_iz,
-    #                    time_iz=l.time_iz, date_iz=self.old_ds, city_v=l.city_v,
-    #                    vokzal_v=l.vokzal_v, time_v=l.time_v, date_v=self.old_df,
-    #                    price_1=l.price["Плацкарт"], price_2=l.price["Купе"], price_3=l.price["СВ"])
-    #     a.save()
 
     def __push_sr(self, l):
         a = train_sr(date_iz=self.old_ds, date_v=self.old_df, city_iz=self.city_from, city_v=self.city_to,
@@ -177,10 +170,10 @@ class train_parse:
             # Цены
             a = i.find("div", class_="wg-wagon-type")
             a = a.find_all("div", "wg-wagon-type__item")
-            for i in a:
-                key = str(i.find("div", class_="wg-wagon-type__title").get_text())
-                l.price[key] = str(i.find("span", class_="wg-wagon-type__price-value").get_text())[:-6].replace(',',
-                                                                                                                '.').replace(
+            for j in a:
+                key = str(j.find("div", class_="wg-wagon-type__title").get_text())
+                l.price[key] = str(j.find("span", class_="wg-wagon-type__price-"
+                                                         "value").get_text())[:-6].replace(',', '.').replace(
                     ' ', '')
             all_data.append(l)
         # print(f"T: {time.time() - t1}")

@@ -18,7 +18,6 @@ def price_filtr(hotel_price, budget):
 
 def get_res(city, theme, keywords, money_do, data_p_s, data_p_e):
     """Получение данных"""
-    t1 = time.time()
     city = get_city(city)
     if money_do == '':
         money_do = -1
@@ -53,6 +52,7 @@ def get_res(city, theme, keywords, money_do, data_p_s, data_p_e):
             tab = table_avia_sr(home_city_code, j["code"], date_str_to_cal(strtodate(j["date_start"]), -1),
                                 date_str_to_cal(strtodate(j["date_end"]), 1))
             if tab == -1:
+                print("Парсинг самолетов")
                 plane_price = fly_price_info.fly_price_info(home_city_code, j["code"], j["date_start"], j["date_end"])
                 tec = plane_price.get_res()
                 if type(tec) == int:
@@ -63,8 +63,10 @@ def get_res(city, theme, keywords, money_do, data_p_s, data_p_e):
                     j["plane"] = tec
             else:
                 j["plane"] = tab
-            tab = table_hotel_sr(j["code"], date_str_to_cal(strtodate(j["date_start"]), -1), date_str_to_cal(strtodate(j["date_end"]), 1))
+            tab = table_hotel_sr(j["code"], date_str_to_cal(strtodate(j["date_start"]), -1),
+                                 date_str_to_cal(strtodate(j["date_end"]), 1))
             if tab == -1:
+                print("Парсинг отелей")
                 hotel_price = h.hotel_api(j["code"], j["date_start"], j["date_end"])
                 j["hotel"] = hotel_price.get_res()
             else:
@@ -78,7 +80,8 @@ def get_res(city, theme, keywords, money_do, data_p_s, data_p_e):
         if i["train"] == -1 or i["code"] == home_city_code:
             continue
         info = table_find_sr(train_pars.transliteration2(city), train_pars.transliteration2(i["city"]),
-                             date_str_to_cal(strtodate(j["date_start"]), -1), date_str_to_cal(strtodate(j["date_end"]), 1))
+                             strtodate(i["date_start"]),
+                             strtodate(i["date_end"]))
         if info != 0:
             i["train"] = info
         else:
@@ -136,17 +139,3 @@ def table_clear():
     for i in a:
         if i.date_start < datetime.datetime.now().date():
             i.delete()
-
-# def table_find(city_iz, city_v, date_iz, date_v):
-#     """Поиск по базе данных о поездах"""
-#     a = train_inf.objects.filter(city_iz=city_iz, city_v=city_v, date_iz=date_iz, date_v=date_v)
-#     mas = []
-#     d = {}
-#     for i in a:
-#         d[""]
-#         d["Плацкарт"] = i.price_1
-#         d["Купе"] = i.price_2
-#         d["СВ"] = i.price_3
-#         mas.append(d)
-#     return d
-

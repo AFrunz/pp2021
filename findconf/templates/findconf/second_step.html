@@ -4,7 +4,7 @@
 <head>
 	<meta charset = "utf-8">
 	<title>Подбор конференции</title>
-    <link rel="icon" href="../../static/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
 	<meta name="viewport" content ="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="{% static 'style.css'%}">
 	<link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}">
@@ -459,16 +459,24 @@
                             {% if i.train != -1 %}
                             <div class="col-md-3">
                                 <div class="fields_name">Поезд</div>
+                                {% if i.train.Плацкарт != 0 %}
                                 <ul>
-                                <li>Плацкарт:     {{ i.train.Плацкарт }}</li>
-                                <li>Купе:     {{ i.train.Купе }}</li>
-                                <li>СВ:     {{ i.train.СВ }}</li>
+                                        <li>Плацкарт:     {{ i.train.Плацкарт }}</li>
+                                    {% if i.train.Купе != 0 %}
+                                        <li>Купе:     {{ i.train.Купе }}</li>
+                                    {% endif %}
+                                    {% if i.train.СВ != 0 %}
+                                        <li>СВ:     {{ i.train.СВ }}</li>
+                                    {% endif %}
                                 </ul>
+                                {% else %}
+                                    <p>Прямые рейсы не найдены</p>
+                                {% endif %}
                             </div>
                             {% else %}
                                 <div class="col-md-3">
                                     <div class="fields_name">Поезд</div>
-                                    <p>Данные не найдены</p>
+                                    <p>Прямые рейсы не найдены</p>
                                 </div>
                             {% endif %}
                             <div class="col-md-3">
@@ -480,7 +488,7 @@
                                     {% if i.plane > 0 %}
                                         <div>{{ i.plane }}</div>
                                     {% else %}
-                                        <div>Данные не найдены</div>
+                                        <div>Прямые рейсы не найдены</div>
                                     {% endif %}
                             </div>
                             <div class="col-md-3">

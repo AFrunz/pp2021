@@ -51,6 +51,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+DISABLE_COLLECTSTATIC = 1
+
 ROOT_URLCONF = 'conference.urls'
 
 TEMPLATES = [

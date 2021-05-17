@@ -16,7 +16,6 @@ idna==2.10
 joblib==0.16.0
 kiwisolver==1.2.0
 lxml==4.6.1
-matplotlib==3.3.2
 packaging==20.4
 parse==1.18.0
 pefile==2019.4.18

@@ -27,7 +27,7 @@ SECRET_KEY = 'y7+wa_uyw1+*0xtx#=2b1$yi9^o^nb@w2bbm1ajzm26p@#3zit'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', 'findconf.herokuapp.com/']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -125,13 +125,15 @@ USE_TZ = True
 
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))[:-11] + '/findconf/'
 
-MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
-
-MEDIA_URL = '/media/'
-
-STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATIC_URL = '/static/'
+
+import dj_database_url
+db_from_env = dj_database_url.config()
+DATABASES['default'].update(db_from_env)
+
+
 
 STATICFILES_FINDERS = (
 
